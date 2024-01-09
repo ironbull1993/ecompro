@@ -30,10 +30,19 @@
         <!-- partial -->
        <div class="main-panel">
        <div class="content-wrapper">
+          @if(session()->has('message'))
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            
+            {{ session()->get('message') }}
+              
+          </div>
+             @endif
         <div class="div_center">
          <h2 class="h2_font">Add category</h2>
-           <form>
-            <input type="text" class="input_color" name="name" placeholder="Enter category name">
+           <form action="{{ url('/add_category') }}" method="POST">
+            @csrf
+            <input type="text" class="input_color" name="category" placeholder="Enter category name">
             <input type="submit" class="btn btn-primary" name="submit" value="Add Category"> 
            </form>
 
