@@ -4,6 +4,11 @@
     <!-- Required meta tags -->
     @include('admin.css')
 <style>
+    .btn{
+        width: 70px;
+        margin-bottom: 15px;
+
+    }
     .div_center{
         text-align: center;
         padding-top: 40px;
@@ -241,7 +246,8 @@ h3:after {
                         <img src="/product/{{$product->image}}">
                        </td>
                     <td data-th="Action">
-                      <a onclick="return confirm('Are you sure you want to delete this category?')" class="btn btn-danger" href="">Delete</a>
+                      <a class="btn btn-success" href="{{ url('update_product',$product->id) }}">Edit</a><br>
+                      <a onclick="return confirm('Are you sure you want to delete this product?')" class="btn btn-danger" href="{{ url('delete_product',$product->id) }}">Delete</a>
                     </td>
                     
                   </tr>

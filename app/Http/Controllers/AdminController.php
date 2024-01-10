@@ -8,6 +8,39 @@ use App\Models\Product;
 
 class AdminController extends Controller
 {
+    public function update_product_confirm(Request $request,$id){
+        $product=product::find($id);
+        $product->title=$request->title;
+        $product->description=$request->description;
+        
+        $product->category=$request->category;
+        $product->quantity=$request->quantity;
+        $product->price=$request->price;
+        $product->discount_price=$request->discount_price;
+ 
+        $image=$request->image;
+        $imagename=time().'.'.$image->getClientOriginalExtension();
+        $request->image->move('product',$imagename);
+        $product->image=$imagename;
+ 
+        $product->save();
+        return redirect()->back()->with('message','Product updated successfully');
+     }
+
+    public function update_product($id){
+        $product=product::find($id);
+        $category=category::all();
+        return view('admin.update_product',compact('product','category'));
+    }
+
+    public function delete_product($id){
+
+        $data=Product::find($id);
+        $data->delete();
+
+        return redirect()->back()->with('message','Product deleted successfully');
+    }
+
     public function show_product(){
         $product=product::all();
         return view('admin.products',compact('product'));
@@ -58,5 +91,7 @@ class AdminController extends Controller
 
         return redirect()->back()->with('message','Category deleted successfully');
     }
+
+
 
 }

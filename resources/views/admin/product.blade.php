@@ -16,6 +16,7 @@
 
     .input_color{
         color: black;
+        margin-bottom: 15px;
        
     }
 
