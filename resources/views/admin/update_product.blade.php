@@ -196,7 +196,7 @@ h3:after {
        <div class="content-wrapper" style="background-color: #4B79A1">
           @if(session()->has('message'))
           <div class="alert alert-success">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            
             
             {{ session()->get('message') }}
               
