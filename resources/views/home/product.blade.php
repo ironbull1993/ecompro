@@ -1,3 +1,5 @@
+<?php use App\Models\Cart;
+use App\Models\Product; ?>
 <section class="product_section layout_padding">
     <div class="container">
        <div class="heading_container heading_center">
@@ -20,16 +22,26 @@
                       </a>
                       <form action="{{ url('add_cart',$product->id) }}" method="post" >
                         @csrf
-                      <div class="input-group quantity-selector quantity-selector-sm">
-                        <input type="number" id="inputQuantitySelectorSm" class="form-control" aria-live="polite" style="width: 15px;border-radius:35px;border-color:black;text-align:center" placeholder="Quantity" data-bs-step="counter" name="quantity" title="quantity" value="1" min="1"  step="1" data-bs-round="0" aria-label="Quantity selector">
-                        
-                      </div>
-                      
+                        @if(Cart::where('product_id',$product->id)->exists())
+                     
+                     
+      
+                     
+                    
+                      <h6 style="text-align:center !important;border:solid;background-color:white;border-radius:30px;margin-top:10px;width:170px;" class="">
+                        Added to cart
+                      </h6>
+                 @else
+                 <div class="input-group quantity-selector quantity-selector-sm">
+                  <input type="number" id="inputQuantitySelectorSm" class="form-control" aria-live="polite" style="width: 15px;border-radius:35px;border-color:black;text-align:center" placeholder="Quantity" data-bs-step="counter" name="quantity" title="quantity" value="1" min="1"  step="1" data-bs-round="0" aria-label="Quantity selector">
+                  
+                </div>
                       <button type="submit" style="border:none;background-color:transparent" value="Add to cart">
                       <a  class="option2">
                       Add to cart
                       </a></button>
-                    
+                    @endif
+                  
                       </form>
                    </div>
                 </div>

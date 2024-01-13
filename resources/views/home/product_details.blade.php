@@ -1,3 +1,6 @@
+
+<?php use App\Models\Cart;
+use App\Models\Product; ?>
 <!DOCTYPE html>
 <html>
    <head>
@@ -129,6 +132,11 @@
                                 </div>
                                 <form action="{{ url('add_cart',$product->id) }}" method="post" >
                                     @csrf
+                                    @if(Cart::where('product_id',$product->id)->exists())
+                                    <h6 style="text-align:center !important;border:solid;background-color:white;border-radius:30px;margin-top:10px;width:170px;" class="">
+                                        Added to cart
+                                      </h6>
+                                    @else
                                   <div class="input-group quantity-selector quantity-selector-sm">
                                     <input type="number" id="inputQuantitySelectorSm" class="form-control" aria-live="polite" style="flex:none;height:15%;width: 90px;border-radius:35px;border-color:black;text-align:center" placeholder="Quantity" data-bs-step="counter" name="quantity" title="quantity" value="1" min="1"  step="1" data-bs-round="0" aria-label="Quantity selector">
                                     
@@ -140,7 +148,7 @@
                                   <a  class="option2">
                                   Add to cart
                                   </a></button>
-                                
+                                @endif
                                   </form>
                                 <div class="border-product">
                                     <h6 class="product-title"><b>product details</b></h6>
