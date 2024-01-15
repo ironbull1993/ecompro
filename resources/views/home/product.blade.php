@@ -1,5 +1,6 @@
 <?php use App\Models\Cart;
 use App\Models\Product; ?>
+
 <section class="product_section layout_padding">
     <div class="container">
        <div class="heading_container heading_center">
@@ -20,26 +21,28 @@ use App\Models\Product; ?>
                       <a href="{{ url('product_details',$product->id) }}" class="option1">
                     Product Details
                       </a>
-                      <form action="{{ url('add_cart',$product->id) }}" method="post" >
+                      <form>
                         @csrf
-                        @if(Cart::where('product_id',$product->id)->exists())
+                        <div id="cart-{{$product->id}}">
+                           <!--h6  style="text-align:center !important;border:solid;background-color:white;border-radius:30px;margin-top:10px;width:170px;" class="">
+                             Added to cart
+                           </h6--></div>
+                        @if(Cart::where('product_id',$product->id)->where('user_id',Session::get('key'))->exists())
                      
                      
       
                      
-                    
-                      <h6 style="text-align:center !important;border:solid;background-color:white;border-radius:30px;margin-top:10px;width:170px;" class="">
+                    <div id="cart-{{$product->id}}">
+                      <h6  style="text-align:center !important;border:solid;background-color:white;border-radius:30px;margin-top:10px;width:170px;" class="">
                         Added to cart
-                      </h6>
+                      </h6></div>
                  @else
                  <div class="input-group quantity-selector quantity-selector-sm">
-                  <input type="number" id="inputQuantitySelectorSm" class="form-control" aria-live="polite" style="width: 15px;border-radius:35px;border-color:black;text-align:center" placeholder="Quantity" data-bs-step="counter" name="quantity" title="quantity" value="1" min="1"  step="1" data-bs-round="0" aria-label="Quantity selector">
-                  
+                  <input type="number" id="inputQuantitySelectorSm-{{$product->id}}" data-qty="" class="form-control" aria-live="polite" style="width: 15px;border-radius:35px;border-color:black;text-align:center" placeholder="Quantity" data-bs-step="counter" name="quantity" title="quantity" value="1" min="1"  step="1" data-bs-round="0" aria-label="Quantity selector">
+                 
                 </div>
-                      <button type="submit" style="border:none;background-color:transparent" value="Add to cart">
-                      <a  class="option2">
-                      Add to cart
-                      </a></button>
+                      <button type="submit" style="text-align: center !important;border: solid;background-color: white;border-radius: 30px;margin-top: 10px;width: 170px;" id="sub-btn-{{$product->id}}" class="add-to-cart-btn" data-id="{{$product->id}}"  style="border:none;background-color:transparent" value="Add to cart">
+                      Add to cart</button>
                     @endif
                   
                       </form>
@@ -80,3 +83,31 @@ use App\Models\Product; ?>
        
     </div>
  </section>
+
+ <script>
+$('.add-to-cart-btn').on('click', function(e) {
+   e.preventDefault();
+    var productId = $(this).attr('data-id');
+    
+    var productqnt = $('#inputQuantitySelectorSm-' + productId).val();
+    $.ajax({
+        url: "{{ route('cart.add') }}",
+        method: 'POST',
+        data: { id: productId, qty: productqnt},
+        success: function(response) {
+        
+            $('#cart-' + productId).html(response.message);
+            $('#inputQuantitySelectorSm-' + productId).hide();
+            setTimeout(function() {
+          $('#cart-' + productId).empty();
+        }, 5000);
+            $('#sub-btn-' + productId).css('display', 'none');
+            //alert(response.message);
+            
+        },
+        error: function(xhr, status, error) {
+            // Handle any errors that occur during the request
+        }
+    });
+});
+   </script>

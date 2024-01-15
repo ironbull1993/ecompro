@@ -50,4 +50,14 @@ Route::get('/product_details/{id}',[HomeController::class,'product_details']);
 
 Route::post('/add_cart/{id}',[HomeController::class,'add_cart']);
 
-//Route::get('/',[HomeController::class,'check_cart']);
+Route::get('/cart_items',[HomeController::class,'cart_items']);
+
+Route::get('/deletecart_product/{id}',[HomeController::class,'deletecart_product']);
+
+Route::get('/deletecart',[HomeController::class,'deletecart']);
+
+Route::post('/cart/add',[HomeController::class,'addItem'])->name('cart.add');
+
+Route::post('/cart/rmv',[HomeController::class,'rmvItem'])->name('cart.rmv');
+
+Route::post('/cart/qtyadd',[HomeController::class,'qtyItem'])->name('cart.qtyadd');

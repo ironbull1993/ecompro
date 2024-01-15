@@ -6560,4 +6560,8 @@ button.btn.btn-solid:active, button.btn.btn-outline:active {
     .collection-banner .contain-banner.banner-4 h2 {
       font-size: 15px; } }
 
+
+
+
+      
     </style>

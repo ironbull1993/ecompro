@@ -1,4 +1,4 @@
-<header class="header_section">
+<header class="header_section" style="position:sticky;top:0;">
             <div class="container">
                <nav class="navbar navbar-expand-lg custom_nav-container ">
                   <a class="navbar-brand" href="{{ url('/') }}"><img width="250" src="images/logo.png" alt="#" /></a>
@@ -18,7 +18,7 @@
                            </ul>
                         </li>
                         <li class="nav-item">
-                           <a class="nav-link" href="product.html">Products</a>
+                           <a class="nav-link" href="{{ url('/cart_items') }}">Cart</a>
                         </li>
                         <li class="nav-item">
                            <a class="nav-link" href="blog_list.html">Blog</a>
@@ -56,4 +56,5 @@
             </div>
          </header>
          @include('home.css')
+        
   
