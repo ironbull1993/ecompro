@@ -1,6 +1,34 @@
-<header class="header_section" style="position:sticky;top:0;">
+
+   
+
+<?php
+//namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Cart;
+if (Session::has('key')){
+   $sesion=Session::get('key');
+   $cartcount=Cart::where('user_id', $sesion)->count();
+  
+  
+}
+else{
+   
+   $cartcount="0";
+  
+ 
+}
+?>
+<header class="header_section" style="">
+  
             <div class="container">
+               
                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                 
+                
                   <a class="navbar-brand" href="{{ url('/') }}"><img width="250" src="images/logo.png" alt="#" /></a>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class=""> </span>
@@ -18,7 +46,7 @@
                            </ul>
                         </li>
                         <li class="nav-item">
-                           <a class="nav-link" href="{{ url('/cart_items') }}">Cart</a>
+                           <a class="nav-link" href="{{ url('/cart_items') }}">Cart<sup id="superscript" style="vertical-align: super;font-size: smaller;">{{$cartcount}}</sup></a>
                         </li>
                         <li class="nav-item">
                            <a class="nav-link" href="blog_list.html">Blog</a>
@@ -50,6 +78,10 @@
                         </li>
                         @endauth
                         @endif
+                        <!--button class="btn  my-2 my-sm-0 nav_search-btn" href="{{ url('/cart_items') }}">
+                           <i class="fa fa-cart-plus" style="font-size:36px;margin-left:45px;" aria-hidden="true"></i>
+                           </button-->
+                          
                      </ul>
                   </div>
                </nav>

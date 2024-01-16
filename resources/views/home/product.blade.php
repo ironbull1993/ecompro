@@ -95,7 +95,7 @@ $('.add-to-cart-btn').on('click', function(e) {
         method: 'POST',
         data: { id: productId, qty: productqnt},
         success: function(response) {
-        
+            $('#superscript').html(response.message2);
             $('#cart-' + productId).html(response.message);
             $('#inputQuantitySelectorSm-' + productId).hide();
             setTimeout(function() {

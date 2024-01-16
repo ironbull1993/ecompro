@@ -61,3 +61,5 @@ Route::post('/cart/add',[HomeController::class,'addItem'])->name('cart.add');
 Route::post('/cart/rmv',[HomeController::class,'rmvItem'])->name('cart.rmv');
 
 Route::post('/cart/qtyadd',[HomeController::class,'qtyItem'])->name('cart.qtyadd');
+
+Route::post('/cart/checkout',[HomeController::class,'checkout'])->name('cart.checkout');

@@ -7,6 +7,7 @@ use App\Models\Product; ?>
     <base href="/public">
       <!-- Basic -->
       <meta charset="utf-8" />
+      
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <!-- Mobile Metas -->
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -233,10 +234,12 @@ table.shoping-cart-table tr td:last-child {
                                     
                                 </td>
                                 <td width="105">
+                                   
                                     <input type="number" id="qty-{{$mycart->id}}" class="form-control qty-cart" data-id="{{$mycart->id}}" placeholder="{{ $mycart->quantity }} " value="" min="1"  step="1" data-bs-round="0" >
                                 </td>
-                                <td>
-                                    <h4 id="cart-price">
+                                <td id="crtprice-{{$mycart->id}}">
+                                     
+                                    <h4>
                                         Tsh  {{$mycart->price}}
                                     </h4>
                                 </td>
@@ -248,7 +251,7 @@ table.shoping-cart-table tr td:last-child {
                 </div>
                @endforeach
                 <div class="ibox-content">
-                    <button class="btn btn-primary pull-right" style="color:black;" ><i class="fa fa fa-shopping-cart"></i><a style="color:black;" href="{{url('/')}}"> Checkout</a></button>
+                    <button class="btn btn-primary pull-right" style="color:black;" ><i class="fa fa fa-shopping-cart"></i><a style="color:black;" href="" data-toggle="modal" data-target="#modalContactForm"> Checkout</a></button>
                     <button class="btn btn-white" ><i class="fa fa-arrow-left"></i><a href="{{url('/')}}"> Continue shopping</a></button>
 
                 </div>
@@ -264,7 +267,7 @@ table.shoping-cart-table tr td:last-child {
                     <span>
                         Total
                     </span>
-                    <h2 class="font-bold">
+                    <h2 class="font-bold" id="total-cart">
                         Tsh {{$cartsum}}/=
                     </h2>
 
@@ -274,7 +277,7 @@ table.shoping-cart-table tr td:last-child {
                     </span>
                     <div class="m-t-sm">
                         <div class="btn-group">
-                        <a href="" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
+                        <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalContactForm"><i class="fa fa-shopping-cart"></i> Checkout</a>
                         <a href="{{ url('deletecart')}}" class="btn btn-white btn-sm"> Cancel</a>
                         </div>
                     </div>
@@ -339,6 +342,67 @@ table.shoping-cart-table tr td:last-child {
       <!-- end client section -->
       <!-- footer start -->
       <div style="margin-top: 15px;">
+    
+        <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Checkout Details</h4>
+        <button type="button" id="clox" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+            <label data-error="wrong" data-success="right" for="form34">Your name</label>
+          <input type="text" id="name" class="form-control validate">
+         
+        </div>
+
+        <div class="md-form mb-5">
+            <label data-error="wrong" data-success="right" for="form29">Your Phone</label>
+            <input type="text" id="phone" class="form-control validate">
+            
+          </div>
+
+        <div class="md-form mb-5">
+            <label data-error="wrong" data-success="right" for="form29">Your email</label>
+          <input type="email" id="email" class="form-control validate">
+          
+        </div>
+
+        <div class="md-form mb-5">
+            <label data-error="wrong" data-success="right" for="form32">Delivery address</label>
+          <input type="text" id="address" class="form-control validate">
+          
+        </div>
+
+        <div class="md-form">
+            <label data-error="wrong" data-success="right" for="form8">Additional delivery Info</label>
+          <textarea type="text" id="additional" class="md-textarea form-control" rows="4"></textarea>
+          
+        </div>
+
+        <div class="md-form mb-5">
+            <label data-error="wrong" data-success="right" for="form29">Cash on delivery</label>
+            <input type="radio" id="cashs" name="cash" value="cash" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form29">Mobile payments</label>
+            <input type="radio" id="form29" name="cash" value="mobile" class="form-control validate">
+            
+          </div>
+
+      </div>
+      <div  class="modal-footer d-flex justify-content-center">
+        <input type=submit id="chec" class="checkout" value="send">
+    
+      </div>
+    </div>
+  </div>
+</div>
+
+
       @include('home.footer')
       </div>
       <!-- footer end -->
@@ -374,11 +438,16 @@ table.shoping-cart-table tr td:last-child {
             $.ajax({
                 url: "{{ route('cart.rmv') }}",
                 method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
                 data: { id: productId},
                 success: function(response) {
                 
                     $('#cart-' + productId).empty();
                     $('#cart-cnt').html(response.message);
+                    $('#total-cart').html('Tsh ' + response.message2);
+                    $('#superscript').html(response.message3);
                     //alert(response.message);
                     
                 },
@@ -392,16 +461,22 @@ table.shoping-cart-table tr td:last-child {
         $('.qty-cart').on('click', function(e) {
            e.preventDefault();
             var productId = $(this).attr('data-id');
+            //var newprice=$(this).attr('data-idd');
             var productqnt = $('#qty-' + productId).val();
            //console.log(productqnt)
             $.ajax({
                 url: "{{ route('cart.qtyadd') }}",
                 method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
                 data: { id: productId, qty: productqnt},
                 success: function(response) {
                 
                    
-                    $('#cart-price').html(response.message);
+                    $('#crtprice-' + productId).html('Tsh ' + response.message);
+                    $('#total-cart').html('Tsh ' + response.message2);
+                    
                     //alert(response.message);
                     
                 },
@@ -410,6 +485,157 @@ table.shoping-cart-table tr td:last-child {
                 }
             });
         });
+
+        $(document).ready(function() {
+        $('.closed').click(function(e) {
+           e.preventDefault();   
+           window.location.href = '/';       
+            });
+        });
+
+
+
+
+        $('.checkout').on('click', function(e) {
+           e.preventDefault();
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var additional = $('#additional').val();
+            var address = $('#address').val();
+            var email = $('#email').val();
+            var cash = $('input[name="cash"]:checked').val();
+            
+           
+            $.ajax({
+                url: "{{ route('cart.checkout') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { name: name, phone: phone,
+                        email: email, address: address,
+                        additional: additional, cash: cash    
+                },
+                success: function(response) {
+                    $('#clox').trigger('click');
+                    $('#thank').trigger('click');
+                   // $('#ignismyModal').show();
+                    $('#mycode').html(response.message);
+                    
+                    //alert(response.message);
+                    
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
            </script>
+
+
+
+
+
+
+
+
    </body>
+<style>
+    /*--thank you pop starts here--*/
+.thank-you-pop{
+	width:100%;
+ 	padding:20px;
+	text-align:center;
+}
+.thank-you-pop img{
+	width:76px;
+	height:auto;
+	margin:0 auto;
+	display:block;
+	margin-bottom:25px;
+}
+
+.thank-you-pop h1{
+	font-size: 42px;
+    margin-bottom: 25px;
+	color:#5C5C5C;
+}
+.thank-you-pop p{
+	font-size: 20px;
+    margin-bottom: 27px;
+ 	color:#5C5C5C;
+}
+.thank-you-pop h3.cupon-pop{
+	font-size: 25px;
+    margin-bottom: 40px;
+	color:#222;
+	display:inline-block;
+	text-align:center;
+	padding:10px 20px;
+	border:2px dashed #222;
+	clear:both;
+	font-weight:normal;
+}
+.thank-you-pop h3.cupon-pop span{
+	color:#03A9F4;
+}
+.thank-you-pop a{
+	display: inline-block;
+    margin: 0 auto;
+    padding: 9px 20px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    background-color: #8BC34A;
+    border-radius: 17px;
+}
+.thank-you-pop a i{
+	margin-right:5px;
+	color:#fff;
+}
+#ignismyModal .modal-header{
+    border:0px;
+}
+/*--thank you pop ends here--*/
+
+    </style>
+
+
+
+   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!--Model Popup starts-->
+<div class="container">
+    <div class="row">
+        <button id="thank" data-toggle="modal" aria-hidden="true" href="#ignismyModal"></button>
+        <div class="modal fade" id="ignismyModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close closed" data-dismiss="modal" aria-label=""><span>×</span></button>
+                     </div>
+					
+                    <div class="modal-body">
+                       
+						<div class="thank-you-pop">
+							<img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
+							<h1>Thank You!</h1>
+							<p>Your submission is received and your order will be delivered soon!</p>
+							<h3 class="cupon-pop">Your Id: <div id="mycode"></div><span id="code"></span> Please note this code for future reference</h3>
+							
+ 						</div>
+                         
+                    </div>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Model Popup ends-->
+
 </html>

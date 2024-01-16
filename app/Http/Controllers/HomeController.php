@@ -9,6 +9,24 @@ use App\Models\Product;
 use App\Models\Cart;
 class HomeController extends Controller
 {
+    public function checkout(Request $request){
+        if (Session::has('key')){
+            $sesion=Session::get('key');
+            $user=User::where('userid', $sesion)->first();
+            $user->name=$request->name;
+            $user->email=$request->email;
+            $user->phone=$request->phone;
+            $user->address=$request->address;
+            $user->additional=$request->additional;
+            $user->cash=$request->cash;
+            $user->save();
+
+            Session::forget('key');
+            return response()->json(['message' => $sesion]);
+        }else{
+            return view('home.userpage');
+        }
+    }
 
     public function addItem(Request $request)
     {  
@@ -31,14 +49,16 @@ class HomeController extends Controller
             $cart->user_id=$sesion;
         
             $cart->save();
+            $cartcount=Cart::where('user_id', $sesion)->count();
             //Session::forget('key');
            // return redirect()->back();
-           return response()->json(['message' => 'Item added to cart']);
+           return response()->json(['message' => 'Item added to cart','message2'=>$cartcount]);
         }
         else{
             $uniqid=uniqid();
             $userid=new User;
             $userid->userid=$uniqid;
+            $userid->usertype="0";
             $userid->save();
         
             Session::put('key', $uniqid);
@@ -59,9 +79,9 @@ class HomeController extends Controller
             $cart->user_id=$sesion;
         
             $cart->save();
-        
+            $cartcount=Cart::where('user_id', $sesion)->count();
             //return redirect()->back();
-            return response()->json(['message' => 'Item added to cart']);
+            return response()->json(['message' => 'Item added to cart','message2'=>$cartcount]);
         }
         
         
@@ -78,8 +98,10 @@ class HomeController extends Controller
 
         $data=Cart::where('id',$request->id)->where('user_id',Session::get('key'))->first();
         $data->delete();
-        
-        return response()->json(['message' => $cartcount-1]);
+        $catsumm=Cart::where('user_id',Session::get('key'))->sum('price');
+
+        $total=$catsumm;
+        return response()->json(['message' => $cartcount-1,'message2'=>$total,'message3'=>$cartcount-1]);
         //return response()->json(['message2' => $cartcount]);
        // return redirect()->back();
     }
@@ -99,8 +121,11 @@ class HomeController extends Controller
         $cart->quantity=$request->qty;
        
         $cart->save();
+        $catsumm=Cart::where('user_id',Session::get('key'))->sum('price');
         
-       return response()->json(['message' => $cart->price]);
+        $total=$catsumm;
+      return response()->json(['message' => $cart->price,'message2'=>$total]);
+       //return response()->json(['message2'=>$total]);
     }
 
     public function deletecart(){

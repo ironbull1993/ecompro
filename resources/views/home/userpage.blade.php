@@ -23,54 +23,13 @@
       <link href="home/css/responsive.css" rel="stylesheet" />
 
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-      <style>
-         body {
-  background: black;
-}
-
-.cart {
-  position: relative;
-  display: block;
-  width: 28px;
-  height: 28px;
-  height: auto;
-  overflow: hidden;
-  .material-icons {
-    position: relative;
-    top: 4px;
-    z-index: 1;
-    font-size: 24px;
-    color: black;
-  }
-  .count {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    font-size: 11px;
-    border-radius: 50%;
-    background: #d60b28;
-    width: 16px;
-    height: 16px;
-    line-height:16px;
-    display: block;
-    text-align: center;
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-  }
-}
-         </style>
+     
    </head>
    
    <body>
       
       <div class="hero_area">
-         <div class="cart">
-            <span class="count">1</span>
-            <!--   <span class="count">1</span> -->
-            <i class="material-icons">shopping_cart</i>
-          </div>
+        
          <!-- header section strats -->
          @include('home.header')
                 <!-- end header section -->
