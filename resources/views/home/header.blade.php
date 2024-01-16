@@ -73,9 +73,9 @@ else{
                         <li class="nav-item">
                            <a class="btn btn-primary" id="logincss" href="{{ route('login') }}">Login</a>
                         </li>
-                        <li class="nav-item">
+                        <!--li class="nav-item">
                            <a class="btn btn-success" href="{{ route('register') }}">Register</a>
-                        </li>
+                        </li-->
                         @endauth
                         @endif
                         <!--button class="btn  my-2 my-sm-0 nav_search-btn" href="{{ url('/cart_items') }}">

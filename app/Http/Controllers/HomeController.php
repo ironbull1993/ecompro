@@ -106,6 +106,28 @@ class HomeController extends Controller
        // return redirect()->back();
     }
 
+
+    public function rmvItemall(Request $request){
+        if (Session::has('key')){
+            $sesion=Session::get('key');
+            
+        }
+        else{
+            $cartcount="0";
+        }
+
+        Cart::where('user_id',$sesion)->delete();
+        $catsumm=Cart::where('user_id',Session::get('key'))->sum('price');
+        $cartcount=Cart::where('user_id', $sesion)->count();
+        $total=$catsumm;
+        return response()->json(['message' => $cartcount,'message2'=>$total,'message3'=>$cartcount]);
+        //return response()->json(['message2' => $cartcount]);
+       // return redirect()->back();
+    }
+
+
+
+
     public function qtyItem(Request $request){
         $sesion=Session::get('key');
         

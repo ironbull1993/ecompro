@@ -197,7 +197,7 @@ table.shoping-cart-table tr td:last-child {
                     <h5>Items in your cart  </h5>
                 </div>
                 @foreach ($mycart as $mycart)
-                <div class="ibox-content" id="cart-{{$mycart->id}}">
+                <div class="ibox-content items" id="cart-{{$mycart->id}}">
                     <div class="table-responsive">
                         <table class="table shoping-cart-table">
                             <tbody>
@@ -278,7 +278,7 @@ table.shoping-cart-table tr td:last-child {
                     <div class="m-t-sm">
                         <div class="btn-group">
                         <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalContactForm"><i class="fa fa-shopping-cart"></i> Checkout</a>
-                        <a href="{{ url('deletecart')}}" class="btn btn-white btn-sm"> Cancel</a>
+                        <button type="submit" data-id="{{$mycart->user_id}}" class="rmv-allcart"><a href="" class="btn btn-white btn-sm"> Cancel</a></button>
                         </div>
                     </div>
                 </div>
@@ -458,6 +458,38 @@ table.shoping-cart-table tr td:last-child {
         });
 
 
+
+
+        $('.rmv-allcart').on('click', function(e) {
+           e.preventDefault();
+            var userId = $(this).attr('data-id');
+            
+           
+            $.ajax({
+                url: "{{ route('cart.rmvall') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { userid: userId},
+                success: function(response) {
+                
+                    $('.items').empty();
+                    $('#cart-cnt').html(response.message);
+                    $('#total-cart').html('Tsh ' + response.message2);
+                    $('#superscript').html(response.message3);
+                    //alert(response.message);
+                    
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+
+
+
         $('.qty-cart').on('click', function(e) {
            e.preventDefault();
             var productId = $(this).attr('data-id');
@@ -625,7 +657,7 @@ table.shoping-cart-table tr td:last-child {
 							<img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
 							<h1>Thank You!</h1>
 							<p>Your submission is received and your order will be delivered soon!</p>
-							<h3 class="cupon-pop">Your Id: <div id="mycode"></div><span id="code"></span> Please note this code for future reference</h3>
+							<h3 class="cupon-pop">Your Id: <div id="mycode" style="color:red;"></div><span id="code"></span> Please note this code for future reference</h3>
 							
  						</div>
                          
