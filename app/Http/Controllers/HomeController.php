@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\Cart;
 class HomeController extends Controller
 {
+
+
     public function checkout(Request $request){
         if (Session::has('key')){
             $sesion=Session::get('key');
@@ -107,7 +109,7 @@ class HomeController extends Controller
     }
 
 
-    public function rmvItemall(Request $request){
+    public function rmvItemall(){
         if (Session::has('key')){
             $sesion=Session::get('key');
             

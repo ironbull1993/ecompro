@@ -251,7 +251,9 @@ table.shoping-cart-table tr td:last-child {
                 </div>
                @endforeach
                 <div class="ibox-content">
-                    <button class="btn btn-primary pull-right" style="color:black;" ><i class="fa fa fa-shopping-cart"></i><a style="color:black;" href="" data-toggle="modal" data-target="#modalContactForm"> Checkout</a></button>
+                    @if($cartsum!=0)
+                    <button id="chkoutid" class="btn btn-primary pull-right" style="color:black;" ><i class="fa fa fa-shopping-cart"></i><a style="color:black;" href="" data-toggle="modal" data-target="#modalContactForm"> Checkout</a></button>
+                    @endif
                     <button class="btn btn-white" ><i class="fa fa-arrow-left"></i><a href="{{url('/')}}"> Continue shopping</a></button>
 
                 </div>
@@ -277,8 +279,10 @@ table.shoping-cart-table tr td:last-child {
                     </span>
                     <div class="m-t-sm">
                         <div class="btn-group">
-                        <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalContactForm"><i class="fa fa-shopping-cart"></i> Checkout</a>
-                        <button type="submit" data-id="{{$mycart->user_id}}" class="rmv-allcart"><a href="" class="btn btn-white btn-sm"> Cancel</a></button>
+                            @if($cartsum!=0)
+                        <a href="" id="chkoutid1" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalContactForm"><i class="fa fa-shopping-cart"></i> Checkout</a>
+                            @endif
+                        <button type="submit" data-id="" class="rmv-allcart" ><a href="" class="btn btn-white btn-sm"> Cancel</a></button>
                         </div>
                     </div>
                 </div>
@@ -449,6 +453,10 @@ table.shoping-cart-table tr td:last-child {
                     $('#total-cart').html('Tsh ' + response.message2);
                     $('#superscript').html(response.message3);
                     //alert(response.message);
+                    if(response.message2=="0"){
+                    $('#chkoutid').hide();
+                    $('#chkoutid1').hide();
+                   }
                     
                 },
                 error: function(xhr, status, error) {
@@ -462,16 +470,16 @@ table.shoping-cart-table tr td:last-child {
 
         $('.rmv-allcart').on('click', function(e) {
            e.preventDefault();
-            var userId = $(this).attr('data-id');
+            //var userId = $(this).attr('data-id');
             
            
             $.ajax({
                 url: "{{ route('cart.rmvall') }}",
-                method: 'POST',
+                method: 'post',
                 headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   },
-                data: { userid: userId},
+               // data: { userid: userId},
                 success: function(response) {
                 
                     $('.items').empty();
@@ -479,6 +487,12 @@ table.shoping-cart-table tr td:last-child {
                     $('#total-cart').html('Tsh ' + response.message2);
                     $('#superscript').html(response.message3);
                     //alert(response.message);
+
+                   if(response.message2="0"){
+                    $('#chkoutid').hide();
+                    $('#chkoutid1').hide();
+                   }
+
                     
                 },
                 error: function(xhr, status, error) {
@@ -671,3 +685,4 @@ table.shoping-cart-table tr td:last-child {
 <!--Model Popup ends-->
 
 </html>
+

@@ -65,3 +65,4 @@ Route::post('/cart/qtyadd',[HomeController::class,'qtyItem'])->name('cart.qtyadd
 Route::post('/cart/checkout',[HomeController::class,'checkout'])->name('cart.checkout');
 
 Route::post('/cart/rmvall',[HomeController::class,'rmvItemall'])->name('cart.rmvall');
+
