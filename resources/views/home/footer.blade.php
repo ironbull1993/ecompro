@@ -109,8 +109,6 @@
 $('.add-to-cart-btn').on('click', function(e) {
    e.preventDefault();
     var productId = $(this).attr('data-id');
-    
-    //var productqnt = $('#inputQuantitySelectorSm-' + productId).val();
     var productqnt ="1";
     $.ajax({
         url: "{{ route('cart.add') }}",
@@ -122,13 +120,11 @@ $('.add-to-cart-btn').on('click', function(e) {
         success: function(response) {
             $('#superscript').html(response.message2);
             $('#cart-' + productId).html(response.message);
-            $('#inputQuantitySelectorSm-' + productId).hide();
-            setTimeout(function() {
-          $('#cart-' + productId).empty();
-        }, 5000);
-            $('#sub-btn-' + productId).css('display', 'none');
-            //alert(response.message);
-            
+            //$('#sub-btn-' + productId).hide();
+           // setTimeout(function() {
+         // $('#cart-' + productId).empty();
+      //  }, 5000);
+            $('#sub-btn-' + productId).css('display', 'none');  
         },
         error: function(xhr, status, error) {
             // Handle any errors that occur during the request
@@ -150,15 +146,11 @@ $('.rmv-cart').on('click', function(e) {
   },
                 data: { id: productId},
                 success: function(response) {
-                
                     $('#cart-' + productId).empty();
-                    //$('#cart-cnt').html(response.message);
                     $('#total-cart').html('Tsh ' + response.message2);
                     $('#total-cart1').html('Tsh ' + response.message2);
                     $('#superscript').html(response.message3);
-                    //alert(response.message);
                     if(response.message2=="0"){
-                   // $('#chkoutid').hide();
                     $('#chkoutid1').hide();
                    }
                     
@@ -174,9 +166,9 @@ $('.rmv-cart').on('click', function(e) {
         $('.qty-cart').on('click', function(e) {
            e.preventDefault();
             var productId = $(this).attr('data-id');
-            //var newprice=$(this).attr('data-idd');
             var productqnt = $('#qty-' + productId).val();
-           //console.log(productqnt)
+            console.log(productqnt)
+           
             $.ajax({
                 url: "{{ route('cart.qtyadd') }}",
                 method: 'POST',
@@ -185,13 +177,9 @@ $('.rmv-cart').on('click', function(e) {
   },
                 data: { id: productId, qty: productqnt},
                 success: function(response) {
-                
-                    //$('#price-' + productId).value=response.message;
                     $('#price-' + productId).html('Tsh ' + response.message);
                     $('#total-cart').html('Tsh ' + response.message2);
                     $('#total-cart1').html('Tsh ' + response.message2);
-                    
-                    //alert(response.message);
                     
                 },
                 error: function(xhr, status, error) {
@@ -222,7 +210,7 @@ $('.rmv-cart').on('click', function(e) {
                         additional: additional, cash: cash    
                 },
                 success: function(response) {
-                    console.log(reponse.message)
+                    window.location.href = '/';
                   //  $('#clox').trigger('click');
                    //$('#thank').trigger('click');
                     //$('#ignismyModal').show();
@@ -268,5 +256,39 @@ $('.rmv-cart').on('click', function(e) {
     });
 });
 
+
+$('.rmv-allcart').on('click', function(e) {
+           e.preventDefault();
+            //var userId = $(this).attr('data-id');
+            
+           
+            $.ajax({
+                url: "{{ route('cart.rmvall') }}",
+                method: 'post',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+               // data: { userid: userId},
+                success: function(response) {
+                
+                    $('.items').empty();
+                    
+                    $('#total-cart').html('Tsh ' + response.message2);
+                    $('#total-cart1').html('Tsh ' + response.message2);
+                    $('#superscript').html(response.message3);
+                    //alert(response.message);
+
+                   if(response.message2="0"){
+                    $('#chkoutid').hide();
+                    $('#chkoutid1').hide();
+                   }
+
+                    
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
 
 </script>

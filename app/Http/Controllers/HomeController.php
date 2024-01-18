@@ -332,8 +332,8 @@ else{
        // return view('home.userpage');
        
          $cartchk=Cart::all();
-         $product=Product::all();
-         return view('home.userpage',compact('product','cartchk'));
+         $products=Product::all();
+         return view('home.userpage',compact('products','cartchk'));
 
     }
  

@@ -39,7 +39,7 @@ use App\Models\Product; ?>
 
                                 @foreach ($mycart as $mycart)
                                 <div >
-                                    <tr id="cart-{{$mycart->id}}">
+                                    <tr class="items" id="cart-{{$mycart->id}}">
                                 <th scope="row">
                                     <div class="d-flex align-items-center">
                                         <img src="/product/{{$mycart->image}}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
@@ -58,7 +58,7 @@ use App\Models\Product; ?>
                                             <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" id="qty-{{$mycart->id}}" class="form-control form-control-sm text-center border-0" min="1"  placeholder="{{ $mycart->quantity }} " >
+                                        <input type="text" id="qty-{{$mycart->id}}" class="form-control form-control-sm text-center border-0" min="1"  value="{{ $mycart->quantity }} " >
                                         <div class="input-group-btn">
                                             <button data-id="{{$mycart->id}}" class="btn btn-sm btn-plus rounded-circle bg-light border qty-cart">
                                                 <i class="fa fa-plus"></i>
@@ -67,7 +67,7 @@ use App\Models\Product; ?>
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4" id="price-{{$mycart->id}}">{{$mycart->price}}</p>
+                                    <p class="mb-0 mt-4" id="price-{{$mycart->id}}">Tsh {{$mycart->price}}</p>
                                 </td>
                                 <td>
                                     <button data-id="{{$mycart->id}}" class="btn btn-md rounded-circle bg-light border mt-4 rmv-cart" >
@@ -84,8 +84,9 @@ use App\Models\Product; ?>
                     </table>
                 </div>
                 <div class="mt-5">
-                    <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>
+                    {{-- <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code"> --}}
+                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary rmv-allcart" type="submit"><a href=""><i class="fa fa-times text-danger"></i> Clear cart</a></button>
+                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button"><a href="{{ url('/') }}">Continue shopping</a></button>
                 </div>
                 <div class="row g-4 justify-content-end">
                     <div class="col-8"></div>
@@ -95,7 +96,7 @@ use App\Models\Product; ?>
                                 <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
                                 <div class="d-flex justify-content-between mb-4">
                                     <h5 class="mb-0 me-4">Subtotal:</h5>
-                                    <p class="mb-0" id="total-cart">{{$cartsum}}</p>
+                                    <p class="mb-0" id="total-cart">Tsh {{$cartsum}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h5 class="mb-0 me-4">Shipping</h5>
@@ -107,7 +108,7 @@ use App\Models\Product; ?>
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                <p class="mb-0 pe-4" id="total-cart1">{{$cartsum}}</p>
+                                <p class="mb-0 pe-4" id="total-cart1">Tsh {{$cartsum}}</p>
                             </div>
                             @if($cartsum!=0)
                             <button id="chkoutid1" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button"><a href="{{ url('/checkout') }}">Proceed Checkout</a></button>
