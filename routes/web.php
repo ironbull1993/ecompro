@@ -66,3 +66,7 @@ Route::post('/cart/checkout',[HomeController::class,'checkout'])->name('cart.che
 
 Route::post('/cart/rmvall',[HomeController::class,'rmvItemall'])->name('cart.rmvall');
 
+Route::get('/checkout',[HomeController::class,'mycheckout']);
+
+Route::post('/cart/addproduct',[HomeController::class,'addproduct'])->name('cart.addproduct');
+

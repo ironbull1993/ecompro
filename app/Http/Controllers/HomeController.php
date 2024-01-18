@@ -9,7 +9,64 @@ use App\Models\Product;
 use App\Models\Cart;
 class HomeController extends Controller
 {
-
+    public function addproduct(Request $request)
+    {  
+        // return $request->id;
+        if (Session::has('key')){
+            $sesion=Session::get('key');
+            $product=Product::find($request->id);
+            $cart=new cart;
+            $cart->product_title=$product->title;
+        
+        if($product->discount_price!=null){
+        $cart->price=$product->discount_price * $request->qty;}
+        else{
+            $cart->price=$product->price * $request->qty;
+        }    
+            $cart->quantity=$request->qty;
+            $cart->image=$product->image;
+            $cart->product_id=$product->id;
+            $cart->product_title=$product->title;
+            $cart->user_id=$sesion;
+        
+            $cart->save();
+            $cartcount=Cart::where('user_id', $sesion)->count();
+            //Session::forget('key');
+           // return redirect()->back();
+           return response()->json(['message'=>$cartcount]);
+        }
+        else{
+            $uniqid=uniqid();
+            $userid=new User;
+            $userid->userid=$uniqid;
+            $userid->usertype="0";
+            $userid->save();
+        
+            Session::put('key', $uniqid);
+            $sesion=Session::get('key');
+            $product=Product::find($request->id);
+            $cart=new cart;
+            $cart->product_title=$product->title;
+        
+        if($product->discount_price!=null){
+        $cart->price=$product->discount_price * $request->qty;}
+        else{
+            $cart->price=$product->price * $request->qty;
+        }    
+            $cart->quantity=$request->qty;
+            $cart->image=$product->image;
+            $cart->product_id=$product->id;
+            $cart->product_title=$product->title;
+            $cart->user_id=$sesion;
+        
+            $cart->save();
+            $cartcount=Cart::where('user_id', $sesion)->count();
+            //return redirect()->back();
+            return response()->json(['message'=>$cartcount]);
+        }
+        
+        
+    }
 
     public function checkout(Request $request){
         if (Session::has('key')){
@@ -252,12 +309,23 @@ else{
 
 
  public function product_details($id){
-    $product=Product::find($id);
-    //Session::forget('key');
+    $product=Product::find($id);   
     return view('home.product_details',compact('product'));
  }
 
-
+ public function mycheckout(){
+    if (Session::has('key')){
+    $sesion=Session::get('key');
+    $mycart=Cart::where('user_id', $sesion)->get();
+    $cartsum=Cart::where('user_id', $sesion)->sum('price');
+    return view('home.checkout',compact('mycart','cartsum'));
+    }
+    else{
+        $cartchk=Cart::all();
+        $product=Product::all();
+        return view('home.userpage',compact('product','cartchk'));
+    }
+ }
  
 
     public function index(){
