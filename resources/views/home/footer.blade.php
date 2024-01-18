@@ -120,11 +120,13 @@ $('.add-to-cart-btn').on('click', function(e) {
         success: function(response) {
             $('#superscript').html(response.message2);
             $('#cart-' + productId).html(response.message);
+            $('#cart1-' + productId).html(response.message);
             //$('#sub-btn-' + productId).hide();
            // setTimeout(function() {
          // $('#cart-' + productId).empty();
       //  }, 5000);
             $('#sub-btn-' + productId).css('display', 'none');  
+            $('#sub-btn1-' + productId).css('display', 'none');  
         },
         error: function(xhr, status, error) {
             // Handle any errors that occur during the request

@@ -113,12 +113,14 @@ use Illuminate\Support\Facades\Request;
                           </a></p>
                     <div class="d-flex justify-content-between flex-lg-wrap">
                         <p class="text-dark fs-5 fw-bold mb-0">{{$product->price}}</p>
+                        <div id="cart-{{$product->id}}"><b></b>
+                        </div>
                         @if(Cart::where('product_id',$product->id)->where('user_id',Session::get('key'))->exists())
-                        <div id="cart-{{$product->id}}"><b>Added to cart</b></div>
+                        <div id="cart-{{$product->id}}"><b>Item added to cart</b></div>
                         @else
                         <form>
                             @csrf
-                      <button type="submit" id="sub-btn-{{$product->id}}" data-id="{{$product->id}}" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                      <button type="submit" id="sub-btn1-{{$product->id}}" data-id="{{$product->id}}" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
                     </form>
                       @endif
                     </div>
@@ -205,10 +207,10 @@ use Illuminate\Support\Facades\Request;
                                                   </a></p>
                                             <div class="d-flex justify-content-between flex-lg-wrap">
                                                 <p class="text-dark fs-5 fw-bold mb-0">{{ $product->price }}</p>
-                                                <div id="cart-{{$product->id}}"><b></b>
+                                                <div id="cart1-{{$product->id}}"><b></b>
                                                 </div>
                                                 @if(Cart::where('product_id',$product->id)->where('user_id',Session::get('key'))->exists())
-                                                <div id="cart-{{$product->id}}"><b>Item added to cart</b></div>
+                                                <div id="cart1-{{$product->id}}"><b>Item added to cart</b></div>
                                                 @else
                                                 <form>
                                                     @csrf

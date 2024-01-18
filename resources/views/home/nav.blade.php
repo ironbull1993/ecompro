@@ -102,6 +102,3 @@ else{
             </div>
         </div>
         <!-- Modal Search End -->
-
-
-        
