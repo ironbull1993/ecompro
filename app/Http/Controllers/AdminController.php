@@ -75,6 +75,16 @@ class AdminController extends Controller
         return view('admin.category',compact('data'));
     }
 
+    public function view_order(){
+        //$data=category::all();
+        return view('admin.orders'  );
+    }
+
+    public function view_orderdetails(){
+        //$data=category::all();
+        return view('admin.orderdetails'  );
+    }
+
     public function add_category(Request $request){
 
         $data=new Category;
@@ -92,6 +102,9 @@ class AdminController extends Controller
         return redirect()->back()->with('message','Category deleted successfully');
     }
 
-
+    public function loggedout(){
+        Session::forget('key');
+        return view('home.userpage'  );
+    }
 
 }

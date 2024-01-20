@@ -329,7 +329,6 @@ else{
  
 
     public function index(){
-       // return view('home.userpage');
        
          $cartchk=Cart::all();
          $products=Product::all();

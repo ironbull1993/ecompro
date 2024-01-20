@@ -28,7 +28,13 @@ Route::middleware([
 
 Route::get('/redirect',[HomeController::class,'redirect']);
 
+Route::post('/logout',[AdminController::class,'loggedout']);
+
 Route::get('/view_category',[AdminController::class,'view_category']);
+
+Route::get('/view_order',[AdminController::class,'view_order']);
+
+Route::get('/view_orderdetails',[AdminController::class,'view_orderdetails']);
 
 Route::post('/add_category',[AdminController::class,'add_category']);
 
@@ -39,6 +45,8 @@ Route::post('/add_product',[AdminController::class,'add_product']);
 Route::get('/view_product',[AdminController::class,'view_product']);
 
 Route::get('/show_product',[AdminController::class,'show_product']);
+
+Route::get('/newproduct',[AdminController::class,'newproduct']);
 
 Route::get('/delete_product/{id}',[AdminController::class,'delete_product']);
 
