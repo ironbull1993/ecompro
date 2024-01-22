@@ -8,37 +8,69 @@ use App\Models\Product;
 
 class AdminController extends Controller
 {
-    public function update_product_confirm(Request $request,$id){
-        $product=product::find($id);
-        $product->title=$request->title;
-        $product->description=$request->description;
-        
-        $product->category=$request->category;
-        $product->quantity=$request->quantity;
-        $product->price=$request->price;
-        $product->discount_price=$request->discount_price;
+    public function edited(Request $request){
+        $product=product::find($request->id1);
+        $product->title=$request->title1;
+        $product->description=$request->description1;
+        $category=category::find($request->category1);
+        $product->category=$category->category_name;
+        $product->quantity=$request->quantity1;
+        $product->price=$request->price1;
+        $product->discount_price=$request->discount_price1;
  
-        $image=$request->image;
-        $imagename=time().'.'.$image->getClientOriginalExtension();
-        $request->image->move('product',$imagename);
-        $product->image=$imagename;
+        // $image=$request->image;
+        // $imagename=time().'.'.$image->getClientOriginalExtension();
+        // $request->image->move('product',$imagename);
+        // $product->image=$imagename;
  
         $product->save();
-        return redirect()->back()->with('message','Product updated successfully');
+        return response()->json(['message1' =>$request->title1,'message2' =>$request->description1,'message3' =>$category->category_name,'message4' =>$request->quantity1,'message5' =>$request->price1]);
      }
 
-    public function update_product($id){
-        $product=product::find($id);
+    public function editproduct(Request $request){
+        $product=product::find($request->id);
         $category=category::all();
-        return view('admin.update_product',compact('product','category'));
+        //$image=$request->image;
+        //$imagename=time().'.'.$image->getClientOriginalExtension();
+       // $request->image->move('product',$imagename);
+       // $product->image=$imagename;
+        return response()->json(['message1' => $product->title,'message2'=>$product->description,'message3'=>$product->price
+        ,'message4'=>$product->quantity]);
     }
 
-    public function delete_product($id){
+    public function catedit(Request $request){
+        $catg=Category::find($request->id);
+        return response()->json(['message1' => $catg->category_name]);
+    }
 
-        $data=Product::find($id);
+    public function catedited(Request $request){
+        $catg=Category::find($request->id1);
+        $catg->category_name=$request->title1;
+       
+ 
+        // $image=$request->image;
+        // $imagename=time().'.'.$image->getClientOriginalExtension();
+        // $request->image->move('product',$imagename);
+        // $product->image=$imagename;
+ 
+        $catg->save();
+        return response()->json(['message1' =>$request->title1]);
+     }
+ 
+    public function editproduct1(){
+
+        $category=category::all();
+        
+        return response()->json($category);
+    }
+
+
+    public function rmvproduct(Request $request){
+
+        $data=Product::find($request->id);
         $data->delete();
 
-        return redirect()->back()->with('message','Product deleted successfully');
+        return response()->json(['message2' => 'deleted']);
     }
 
     public function show_product(){
@@ -51,23 +83,33 @@ class AdminController extends Controller
         return view('admin.product',compact('category'));
     }
 
-    public function add_product(Request $request){
-       $product=new product;
-       $product->title=$request->title;
-       $product->description=$request->description;
-       
-       $product->category=$request->category;
-       $product->quantity=$request->quantity;
-       $product->price=$request->price;
-       $product->discount_price=$request->discount_price;
-
-       $image=$request->image;
-       $imagename=time().'.'.$image->getClientOriginalExtension();
-       $request->image->move('product',$imagename);
-       $product->image=$imagename;
-
-       $product->save();
-       return redirect()->back()->with('message','Product added successfully');
+    public function added(Request $request)
+    {
+        $product = new Product;
+        $product->title = $request->input('title');
+        $product->description = $request->input('description');
+        $category=category::find($request->input('category'));
+        $product->category=$category->category_name;
+        
+        $product->quantity = $request->input('quantity');
+        $product->price = $request->input('price');
+        //$product->discount_price = $request->input('discount_price');
+    
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            if ($image->isValid()) {
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move('product', $imageName);
+                $product->image = $imageName;
+            }
+        }
+    
+        $product->save();
+    
+        // Redirect back or return a JSON response
+        //return redirect()->back();
+        // Or
+         //return response()->json(['message' =>$product->id,'message1' =>$product->category]);
     }
 
     public function view_category(){
@@ -85,21 +127,21 @@ class AdminController extends Controller
         return view('admin.orderdetails'  );
     }
 
-    public function add_category(Request $request){
+    public function catadd(Request $request){
 
         $data=new Category;
 
-        $data->category_name=$request->category;
+        $data->category_name=$request->title;
         $data->save();
-        return redirect()->back()->with('message','Category added successfully');
+        //return redirect()->back()->with('message','Category added successfully');
     }
 
-    public function delete_category($id){
+    public function catrmv(Request $request){
 
-        $data=Category::find($id);
+        $data=Category::find($request->id);
         $data->delete();
 
-        return redirect()->back()->with('message','Category deleted successfully');
+        //return redirect()->back()->with('message','Category deleted successfully');
     }
 
     public function loggedout(){

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>eCommerce Category List - Apps | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
 
@@ -98,12 +98,13 @@
 
         <!-- Category List Table -->
         <div class="card">
-          <div class="dt-buttons"><button class="dt-button add-new btn btn-primary ms-2" tabindex="0"
+          <div class="dt-buttons"><button id="opennew" class="dt-button add-new btn btn-primary ms-2" tabindex="0"
               aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasEcommerceCategoryList"><span><i class="bx bx-plus me-0 me-sm-1"></i>Add
-                Product</span></button> </div>
+                Product</span></button>
+               </div>
           <div class="card-datatable table-responsive">
-            <table class="category-list table border-top">
+            <table class="category-list table border-top" id="mytable">
               <thead>
                 <tr>
                   {{-- <th></th> --}}
@@ -115,7 +116,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="odd">
+                @foreach($product as $product)
+                <tr class="odd" id="product-{{$product->id}}">
                   {{-- <td class="control dtr-hidden" tabindex="0" style="display: no ne;">
                   </td> --}}
                   <td class="  dt-checkboxes-cell">
@@ -125,32 +127,34 @@
                     <div class="d-flex align-items-center">
                       <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
                         <div class="avatar">
-                          <img src="{{ asset('admin/assets/img/avatars/16.png') }}" alt="Product-8" class="rounded-2"
+                          <img src="/product/{{$product->image}}" alt="Product-8" class="rounded-2"
                             style="filter: invert(0);">
                         </div>
                       </div>
                       <div class="d-flex flex-column justify-content-center">
-                        <span class="text-body text-wrap fw-medium">Travel</span>
+                        <span id="title-{{$product->id}}" class="text-body text-wrap fw-medium">{{$product->title}}</span>
                         <span class="text-muted text-truncate mb-0 d-none d-sm-block">
-                          <small>Choose from wide range of travel accessories from popular brands</small>
+                          <small id="category-{{$product->id}}">Category: {{$product->category}}</small><br>
+                          <small id="description-{{$product->id}}">{{$product->description}}</small>
                         </span>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <div class="text-sm-end">4186</div>
+                    <div class="text-sm-end" id="quantity-{{$product->id}}">{{$product->quantity}}</div>
                   </td>
                   <td class="" style="">
-                    <div class="fw-medium text-sm-end">$7912.99</div>
+                    <div class="fw-medium text-sm-end" id="price-{{$product->id}}">Tsh {{$product->price}}</div>
                   </td>
                   <td class="" style="">
                     <div class="d-flex align-items-sm-center justify-content-sm-center">
-                      <button class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button>
-                      <button class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button>
+                      <button class="btn btn-sm btn-icon delete-record me-2 rmv-product" data-id="{{$product->id}}"><i class="bx bx-trash"></i></button>
+                      <button class="btn btn-sm btn-icon editproduct" data-id="{{$product->id}}" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasEcommerceCategoryList"><i class="bx bx-edit"></i></button>
                     </div>
                   </td>
                 </tr>
-               
+               @endforeach
               </tbody>
             </table>
           </div>
@@ -160,27 +164,28 @@
           aria-labelledby="offcanvasEcommerceCategoryListLabel">
           <!-- Offcanvas Header -->
           <div class="offcanvas-header py-4">
-            <h5 id="offcanvasEcommerceCategoryListLabel" class="offcanvas-title">Add Product</h5>
+            <h5 id="offcanvasEcommerceCategoryListLabel" class="offcanvas-title">Edit Product</h5>
             <button type="button" class="btn-close bg-label-secondary text-reset" data-bs-dismiss="offcanvas"
               aria-label="Close"></button>
           </div>
           <!-- Offcanvas Body -->
           <div class="offcanvas-body border-top">
-            <form class="pt-0" id="eCommerceCategoryListForm" onsubmit="return true">
+            <form class="pt-0" id="eCommerceCategoryListForm" enctype="multipart/form-data">
               <!-- Title -->
               <div class="mb-3">
-                <label class="form-label" for="ecommerce-category-title">Title</label>
+                <label class="form-label"  for="ecommerce-category-title">Title</label>
                 <input type="text" class="form-control" id="ecommerce-category-title" placeholder="Enter Product title"
                   name="categoryTitle" aria-label="category title">
               </div>
+              <input type="hidden" val="" id="data-id">
               <div class="mb-3">
                 <label class="form-label" for="ecommerce-category-title">Price</label>
-                <input type="number" class="form-control" id="ecommerce-category-title" placeholder="Enter Product Price"
+                <input type="number" class="form-control" id="ecommerce-category-price" placeholder="Enter Product Price"
                   name="productprice" aria-label="category title">
               </div>
               <div class="mb-3">
                 <label class="form-label" for="ecommerce-category-title">Stock</label>
-                <input type="number" class="form-control" id="ecommerce-category-title" placeholder="Available stock quantity"
+                <input type="number" class="form-control" id="ecommerce-category-quantity" placeholder="Available stock quantity"
                   name="productprice" aria-label="category title">
               </div>
 
@@ -193,46 +198,26 @@
               <!-- Description -->
               <div class="mb-3">
                 <label class="form-label">Description</label>
-                <div class="form-control p-0 pt-1">
-                  <div class="comment-editor border-0" id="ecommerce-category-description">
-                  </div>
-                  <div class="comment-toolbar border-0 rounded">
-                    <div class="d-flex justify-content-end">
-                      <span class="ql-formats me-0">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
-                        <button class="ql-link"></button>
-                        <button class="ql-image"></button>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
+                <input type="text" class="form-control" id="ecommerce-category-description" placeholder="Enter description"
+                  name="productprice" aria-label="category title">
               </div>
               <!-- Status -->
               <div class="mb-4 ecommerce-select2-dropdown">
                 <label class="form-label">Select category</label>
                 <select id="ecommerce-category-status" class="select2 form-select"
                   data-placeholder="Select category status">
-                  <option value="">Select category</option>
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="Publish">Publish</option>
-                  <option value="Inactive">Inactive</option>
                 </select>
               </div>
               <!-- Submit and reset -->
               <div class="mb-3">
-                <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Add</button>
+                <button type="submit" id="" class="btn btn-primary me-sm-3 me-1 data-submit edited" data-id="{{$product->id}}">Save</button>
+                <button type="submit" id="additem" class="btn btn-primary me-sm-3 me-1 data-submit">Add</button>
                 <button type="reset" class="btn bg-label-danger" data-bs-dismiss="offcanvas">Discard</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-
     </div>
     <!-- / Content -->
 
@@ -328,6 +313,173 @@
     $(document).ready(function() {
     $('.category-list').DataTable()
   })
+
+  $('.rmv-product').on('click', function(e) {
+           e.preventDefault();
+            var productId = $(this).attr('data-id');
+
+            $.ajax({
+                url: "{{ route('product.rmv') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id: productId},
+                success: function(response) {
+                    $('#product-' + productId).empty();
+                    //toastr.success("Success");
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+        $('.editproduct').on('click', function(e) {
+           e.preventDefault();
+           $('#additem').hide();
+           $('.edited').show();
+          
+            var productId = $(this).attr('data-id');
+
+            $.ajax({
+                url: "{{ route('product.edit') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id: productId},
+                success: function(response) {
+                   
+                     $.get('/product/edit1', function(data) {
+            // Populate the category select options
+            var categorySelect = $('#ecommerce-category-status');
+            categorySelect.empty(); // Clear existing options
+            $(document).ready(function() {
+            $.each(data, function(editproduct1, category) {
+                var option = $('<option>').val(category.id).text(category.category_name);
+                categorySelect.append(option);
+            });
+          });
+        });
+                     
+                     $('#ecommerce-category-title').val(response.message1);
+                     $('#ecommerce-category-price').val(response.message3);
+                     $('#ecommerce-category-quantity').val(response.message4);
+                     $('#ecommerce-category-description').val(response.message2);
+                     $('#data-id').val(productId);
+
+
+                     
+                   
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+        $('.edited').on('click', function(e) {
+           e.preventDefault();
+           var productid2=$('#data-id').val();
+           console.log(productid2)
+            var title = $('#ecommerce-category-title').val();
+            var description = $('#ecommerce-category-description').val();
+            var price = $('#ecommerce-category-price').val();
+            var quantity = $('#ecommerce-category-quantity').val();
+            var category = $('#ecommerce-category-status').val();
+            
+            
+            $.ajax({
+                url: "{{ route('product.edited') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id1: productid2, title1: title, description1: description,
+                        price1: price, quantity1: quantity,
+                        category1: category    
+                },
+                success: function(response) {
+                  $('#eCommerceCategoryListForm')[0].reset();
+                   $('.text-reset').trigger('click');
+                   $('#title-' + productid2).html(response.message1);
+                   $('#description-' + productid2).html(response.message2);
+                   $('#category-' + productid2).html("Category: " + response.message3);
+                   $('#quantity-' + productid2).html(response.message4);
+                   $('#price-' + productid2).html('Tsh ' + response.message5);
+                   $('#additem').show();
+                   
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+
+        $('#opennew').on('click', function(e) {
+           e.preventDefault();
+           
+          $('#eCommerceCategoryListForm')[0].reset();
+          $('#offcanvasEcommerceCategoryListLabel').html("New Product");
+          $('.edited').hide();
+          $('#additem').show();
+          $.get('/product/edit1', function(data) {
+            // Populate the category select options
+            var categorySelect = $('#ecommerce-category-status');
+            categorySelect.empty(); // Clear existing options
+            $(document).ready(function() {
+            $.each(data, function(editproduct1, category) {
+                var option = $('<option>').val(category.id).text(category.category_name);
+                categorySelect.append(option);
+            });
+          });
+        });
+         });
+
+         $('#additem').on('click', function(e) {
+           e.preventDefault();
+ 
+            var title = $('#ecommerce-category-title').val();
+            var description = $('#ecommerce-category-description').val();
+            var price = $('#ecommerce-category-price').val();
+            var quantity = $('#ecommerce-category-quantity').val();
+            var category = $('#ecommerce-category-status').val();
+            var fileInput = $('#ecommerce-category-image')[0]; // Get the file input element
+    var file = fileInput.files[0]; // Get the selected file
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('quantity', quantity);
+    formData.append('category', category);
+   
+            //var image = jQuery('#ecommerce-category-image').val();
+         
+            $.ajax({
+                url: "{{ route('product.add') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+  data: formData,
+  processData: false,
+      contentType: false,
+                success: function(response) {
+                    
+                   $('.text-reset').trigger('click');
+                   window.location.href = '/show_product';
+                  // $('#category-' + respone.message).html('Category: ' + respone.message1);
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+
   </script>
 </body>
 

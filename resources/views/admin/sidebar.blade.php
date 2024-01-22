@@ -74,7 +74,7 @@
       <div class="text-truncate" data-i18n="eCommerce">eCommerce</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item active">
+      <li class="menu-item">
         <a href="{{ url('/redirect') }}" class="menu-link">
           <div class="text-truncate" data-i18n="Dashboard">Dashboard</div>
         </a>

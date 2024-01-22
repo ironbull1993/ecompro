@@ -68,6 +68,24 @@ Route::post('/cart/add',[HomeController::class,'addItem'])->name('cart.add');
 
 Route::post('/cart/rmv',[HomeController::class,'rmvItem'])->name('cart.rmv');
 
+Route::post('/product/rmv',[AdminController::class,'rmvproduct'])->name('product.rmv');
+
+Route::post('/product/edit',[AdminController::class,'editproduct'])->name('product.edit');
+
+Route::get('/product/edit1',[AdminController::class,'editproduct1'])->name('product.edit1');
+
+Route::post('/product/edited',[AdminController::class,'edited'])->name('product.edited');
+
+Route::post('/product/add',[AdminController::class,'added'])->name('product.add');
+
+Route::post('/cat/edit',[AdminController::class,'catedit'])->name('cat.edit');
+
+Route::post('/cat/edited',[AdminController::class,'catedited'])->name('cat.edited');
+
+Route::post('/cat/rmv',[AdminController::class,'catrmv'])->name('cat.rmv');
+
+Route::post('/cat/add',[AdminController::class,'catadd'])->name('cat.add');
+
 Route::post('/cart/qtyadd',[HomeController::class,'qtyItem'])->name('cart.qtyadd');
 
 Route::post('/cart/checkout',[HomeController::class,'checkout'])->name('cart.checkout');

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>eCommerce Category List - Apps | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
 
@@ -98,7 +98,7 @@
 
         <!-- Category List Table -->
         <div class="card">
-          <div class="dt-buttons"><button class="dt-button add-new btn btn-primary ms-2" tabindex="0"
+          <div class="dt-buttons"><button id="opennew" class="dt-button add-new btn btn-primary ms-2" tabindex="0"
               aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasEcommerceCategoryList"><span><i class="bx bx-plus me-0 me-sm-1"></i>Add
                 Category</span></button> </div>
@@ -114,8 +114,10 @@
                   <th class="text-lg-center">Actions</th>
                 </tr>
               </thead>
+              
               <tbody>
-                <tr class="odd">
+                @foreach($data as $data)
+                <tr class="odd" id="cat-{{$data->id}}">
                   {{-- <td class="control dtr-hidden" tabindex="0" style="display: no ne;">
                   </td> --}}
                   <td class="  dt-checkboxes-cell">
@@ -130,10 +132,8 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column justify-content-center">
-                        <span class="text-body text-wrap fw-medium">Travel</span>
-                        <span class="text-muted text-truncate mb-0 d-none d-sm-block">
-                          <small>Choose from wide range of travel accessories from popular brands</small>
-                        </span>
+                        <span id="title-{{$data->id}}" class="text-body text-wrap fw-medium">{{$data->category_name}}</span>
+                        
                       </div>
                     </div>
                   </td>
@@ -145,174 +145,13 @@
                   </td>
                   <td class="" style="">
                     <div class="d-flex align-items-sm-center justify-content-sm-center">
-                      <button class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button>
-                      <button class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button>
+                      <button class="btn btn-sm btn-icon delete-record me-2 rmvcategory" data-id="{{$data->id}}"><i class="bx bx-trash"></i></button>
+                      <button class="btn btn-sm btn-icon editcat" data-id="{{$data->id}}" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasEcommerceCategoryList"><i class="bx bx-edit"></i></button>
                     </div>
                   </td>
                 </tr>
-                {{-- <tr class="even">
-                  <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-                  <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
-                  <td class="sorting_1">
-                    <div class="d-flex align-items-center">
-                      <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
-                        <div class="avatar"><img src="../../assets/img/ecommerce-images/product-1.png" alt="Product-1"
-                            class="rounded-2" style="filter: invert(0);"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center"><span
-                          class="text-body text-wrap fw-medium">Smart Phone</span><span
-                          class="text-muted text-truncate mb-0 d-none d-sm-block"><small>Choose from wide range of
-                            smartphones from popular brands</small></span></div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-sm-end">1947</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="fw-medium text-sm-end">$99129</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="d-flex align-items-sm-center justify-content-sm-center"><button
-                        class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button><button
-                        class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button></div>
-                  </td>
-                </tr>
-                <tr class="odd">
-                  <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-                  <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
-                  <td class="sorting_1">
-                    <div class="d-flex align-items-center">
-                      <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
-                        <div class="avatar"><img src="../../assets/img/ecommerce-images/product-4.png" alt="Product-4"
-                            class="rounded-2" style="filter: invert(0);"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center"><span
-                          class="text-body text-wrap fw-medium">Shoes</span><span
-                          class="text-muted text-truncate mb-0 d-none d-sm-block"><small>Explore the latest shoes from
-                            Top brands</small></span></div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-sm-end">4940</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="fw-medium text-sm-end">$3612.98</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="d-flex align-items-sm-center justify-content-sm-center"><button
-                        class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button><button
-                        class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button></div>
-                  </td>
-                </tr>
-                <tr class="even">
-                  <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-                  <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
-                  <td class="sorting_1">
-                    <div class="d-flex align-items-center">
-                      <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
-                        <div class="avatar"><img src="../../assets/img/ecommerce-images/product-22.png" alt="Product-10"
-                            class="rounded-2" style="filter: invert(0);"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center"><span
-                          class="text-body text-wrap fw-medium">Jewellery</span><span
-                          class="text-muted text-truncate mb-0 d-none d-sm-block"><small>Choose from wide range of
-                            Jewellery from popular brands</small></span></div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-sm-end">4186</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="fw-medium text-sm-end">$7912.99</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="d-flex align-items-sm-center justify-content-sm-center"><button
-                        class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button><button
-                        class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button></div>
-                  </td>
-                </tr>
-                <tr class="odd">
-                  <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-                  <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
-                  <td class="sorting_1">
-                    <div class="d-flex align-items-center">
-                      <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
-                        <div class="avatar"><img src="../../assets/img/ecommerce-images/product-10.png" alt="Product-7"
-                            class="rounded-2" style="filter: invert(0);"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center"><span
-                          class="text-body text-wrap fw-medium">Home Decor</span><span
-                          class="text-muted text-truncate mb-0 d-none d-sm-block"><small>Choose from wide range of home
-                            decor from popular brands</small></span></div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-sm-end">9184</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="fw-medium text-sm-end">$19120.45</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="d-flex align-items-sm-center justify-content-sm-center"><button
-                        class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button><button
-                        class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button></div>
-                  </td>
-                </tr>
-                <tr class="even">
-                  <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-                  <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
-                  <td class="sorting_1">
-                    <div class="d-flex align-items-center">
-                      <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
-                        <div class="avatar"><img src="../../assets/img/ecommerce-images/product-23.png" alt="Product-11"
-                            class="rounded-2" style="filter: invert(0);"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center"><span
-                          class="text-body text-wrap fw-medium">Grocery</span><span
-                          class="text-muted text-truncate mb-0 d-none d-sm-block"><small>Get fresh groceries delivered
-                            at your doorstep</small></span></div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-sm-end">4186</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="fw-medium text-sm-end">$7912.99</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="d-flex align-items-sm-center justify-content-sm-center"><button
-                        class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button><button
-                        class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button></div>
-                  </td>
-                </tr>
-                <tr class="odd">
-                  <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
-                  <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
-                  <td class="sorting_1">
-                    <div class="d-flex align-items-center">
-                      <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
-                        <div class="avatar"><img src="../../assets/img/ecommerce-images/product-6.png" alt="Product-6"
-                            class="rounded-2" style="filter: invert(0);"></div>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center"><span
-                          class="text-body text-wrap fw-medium">Games</span><span
-                          class="text-muted text-truncate mb-0 d-none d-sm-block"><small>Dive into world of Virtual
-                            Reality with latest games</small></span></div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="text-sm-end">5764</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="fw-medium text-sm-end">$29129</div>
-                  </td>
-                  <td class="" style="">
-                    <div class="d-flex align-items-sm-center justify-content-sm-center"><button
-                        class="btn btn-sm btn-icon delete-record me-2"><i class="bx bx-trash"></i></button><button
-                        class="btn btn-sm btn-icon"><i class="bx bx-edit"></i></button></div>
-                  </td>
-                </tr>
-              </tbody> --}}
+                @endforeach
               </tbody>
             </table>
           </div>
@@ -328,42 +167,21 @@
           </div>
           <!-- Offcanvas Body -->
           <div class="offcanvas-body border-top">
-            <form class="pt-0" id="eCommerceCategoryListForm" onsubmit="return true">
+            <form class="pt-0" id="eCommerceCategoryListForm">
               <!-- Title -->
               <div class="mb-3">
                 <label class="form-label" for="ecommerce-category-title">Title</label>
                 <input type="text" class="form-control" id="ecommerce-category-title" placeholder="Enter category title"
                   name="categoryTitle" aria-label="category title">
               </div>
-
+             <input type="hidden" id="data-id">
               <!-- Image -->
               <div class="mb-3">
                 <label class="form-label" for="ecommerce-category-image">Attachment</label>
                 <input class="form-control" type="file" id="ecommerce-category-image">
               </div>
 
-              <!-- Description -->
-              <div class="mb-3">
-                <label class="form-label">Description</label>
-                <div class="form-control p-0 pt-1">
-                  <div class="comment-editor border-0" id="ecommerce-category-description">
-                  </div>
-                  <div class="comment-toolbar border-0 rounded">
-                    <div class="d-flex justify-content-end">
-                      <span class="ql-formats me-0">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
-                        <button class="ql-link"></button>
-                        <button class="ql-image"></button>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
+              
               <!-- Status -->
               <div class="mb-4 ecommerce-select2-dropdown">
                 <label class="form-label">Select category status</label>
@@ -377,7 +195,8 @@
               </div>
               <!-- Submit and reset -->
               <div class="mb-3">
-                <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Add</button>
+                <button type="submit" id="" class="btn btn-primary me-sm-3 me-1 data-submit edited">Save</button>
+                <button type="submit" id="addcat" class="btn btn-primary me-sm-3 me-1 data-submit">Add</button>
                 <button type="reset" class="btn bg-label-danger" data-bs-dismiss="offcanvas">Discard</button>
               </div>
             </form>
@@ -480,6 +299,121 @@
     $(document).ready(function() {
     $('.category-list').DataTable()
   })
+
+
+  $('.editcat').on('click', function(e) {
+    $('.edited').show();
+          $('#addcat').hide();
+           e.preventDefault();
+            var catId = $(this).attr('data-id');
+//console.log(productId)
+            $.ajax({
+                url: "{{ route('cat.edit') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id: catId},
+                success: function(response) {
+                   
+                 
+                     
+                     $('#ecommerce-category-title').val(response.message1);
+                    
+                     $('#data-id').val(catId);
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+        $('.edited').on('click', function(e) {
+           e.preventDefault();
+           var catid2=$('#data-id').val();
+           
+            var title = $('#ecommerce-category-title').val();
+           
+            $.ajax({
+                url: "{{ route('cat.edited') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id1: catid2, title1: title  
+                },
+                success: function(response) {
+                  $('#eCommerceCategoryListForm')[0].reset();
+                   $('.text-reset').trigger('click');
+                   //console.log(response.message6)
+                   $('#title-' + catid2).html(response.message1);
+                  
+                   
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+
+        $('.rmvcategory').on('click', function(e) {
+           e.preventDefault();
+            var catId = $(this).attr('data-id');
+
+            $.ajax({
+                url: "{{ route('cat.rmv') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id: catId},
+                success: function(response) {
+                    $('#cat-' + catId).empty();
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+
+
+        $('#opennew').on('click', function(e) {
+           e.preventDefault();
+          $('#eCommerceCategoryListForm')[0].reset();
+          $('#offcanvasEcommerceCategoryListLabel').html("New Category");
+          $('.edited').hide();
+          $('#addcat').show();
+         });
+
+         $('#addcat').on('click', function(e) {
+           e.preventDefault();
+ 
+            var title = $('#ecommerce-category-title').val();
+           
+            
+            $.ajax({
+                url: "{{ route('cat.add') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: {title: title    
+                },
+                success: function(response) {
+                    
+                   $('.text-reset').trigger('click');
+                   window.location.href = '/view_category';
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+
+
   </script>
 </body>
 
