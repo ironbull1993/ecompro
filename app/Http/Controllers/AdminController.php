@@ -9,22 +9,28 @@ use App\Models\Product;
 class AdminController extends Controller
 {
     public function edited(Request $request){
-        $product=product::find($request->id1);
-        $product->title=$request->title1;
-        $product->description=$request->description1;
-        $category=category::find($request->category1);
+        $product=product::find($request->input('id'));
+        $product->title = $request->input('title');
+        $product->description = $request->input('description');
+        $category=category::find($request->input('category'));
         $product->category=$category->category_name;
-        $product->quantity=$request->quantity1;
-        $product->price=$request->price1;
-        $product->discount_price=$request->discount_price1;
- 
-        // $image=$request->image;
-        // $imagename=time().'.'.$image->getClientOriginalExtension();
-        // $request->image->move('product',$imagename);
-        // $product->image=$imagename;
- 
+        
+        $product->quantity = $request->input('quantity');
+        $product->price = $request->input('price');
+        //$product->discount_price = $request->input('discount_price');
+    
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            if ($image->isValid()) {
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move('product', $imageName);
+                $product->image = $imageName;
+            }
+        }
+    
+    
         $product->save();
-        return response()->json(['message1' =>$request->title1,'message2' =>$request->description1,'message3' =>$category->category_name,'message4' =>$request->quantity1,'message5' =>$request->price1]);
+        return response()->json(['message1' =>$request->input('title'),'message2' =>$request->input('description'),'message3' =>$category->category_name,'message4' =>$request->input('quantity'),'message5' =>$request->input('price'),'message6' =>$imageName]);
      }
 
     public function editproduct(Request $request){

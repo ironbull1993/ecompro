@@ -127,7 +127,7 @@
                     <div class="d-flex align-items-center">
                       <div class="avatar-wrapper me-2 rounded-2 bg-label-secondary">
                         <div class="avatar">
-                          <img src="/product/{{$product->image}}" alt="Product-8" class="rounded-2"
+                          <img id="myimage-{{$product->id}}" src="/product/{{$product->image}}" alt="Product-8" class="rounded-2"
                             style="filter: invert(0);">
                         </div>
                       </div>
@@ -381,33 +381,41 @@
 
         $('.edited').on('click', function(e) {
            e.preventDefault();
-           var productid2=$('#data-id').val();
-           console.log(productid2)
+           var id=$('#data-id').val();
+          // console.log(productid2)
             var title = $('#ecommerce-category-title').val();
             var description = $('#ecommerce-category-description').val();
             var price = $('#ecommerce-category-price').val();
             var quantity = $('#ecommerce-category-quantity').val();
             var category = $('#ecommerce-category-status').val();
-            
-            
+            var fileInput = $('#ecommerce-category-image')[0];
+            var file = fileInput.files[0]; // Get the selected file
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('quantity', quantity);
+    formData.append('category', category);
+    formData.append('id', id);
             $.ajax({
                 url: "{{ route('product.edited') }}",
                 method: 'POST',
                 headers: {
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   },
-                data: { id1: productid2, title1: title, description1: description,
-                        price1: price, quantity1: quantity,
-                        category1: category    
-                },
+  data: formData,
+  processData: false,
+      contentType: false,
                 success: function(response) {
                   $('#eCommerceCategoryListForm')[0].reset();
                    $('.text-reset').trigger('click');
-                   $('#title-' + productid2).html(response.message1);
-                   $('#description-' + productid2).html(response.message2);
-                   $('#category-' + productid2).html("Category: " + response.message3);
-                   $('#quantity-' + productid2).html(response.message4);
-                   $('#price-' + productid2).html('Tsh ' + response.message5);
+                   $('#title-' + id).html(response.message1);
+                   $('#description-' + id).html(response.message2);
+                   $('#category-' + id).html("Category: " + response.message3);
+                   $('#quantity-' + id).html(response.message4);
+                   $('#price-' + id).html('Tsh ' + response.message5);
+                   $('#myimage-' + id).attr('src', '/product/' + response.message6);
                    $('#additem').show();
                    
                 },
