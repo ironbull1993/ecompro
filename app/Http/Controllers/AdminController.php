@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
-
+use App\Models\Order;
+use App\Models\Cart;
+use App\Models\User;
 class AdminController extends Controller
 {
     public function edited(Request $request){
@@ -79,6 +81,24 @@ class AdminController extends Controller
         return response()->json(['message2' => 'deleted']);
     }
 
+    public function rmvorder(Request $request){
+
+        $data=Order::find($request->id);
+        $data->delete();
+
+        return response()->json(['message2' => 'deleted']);
+    }
+
+    public function vieworder($id){
+        $customer=User::where('userid', $id)->first();
+        $data=Cart::where('user_id', $id)->get();
+        $order=Order::where('userid', $id)->first();
+       
+        $catsumm=Cart::where('user_id',$id)->sum('price');
+        $catcount=Cart::where('user_id',$id)->count();
+        return view('admin.orderdetails',compact('data','order','catsumm','customer','catcount'));
+    }
+
     public function show_product(){
         $product=product::all();
         return view('admin.products',compact('product'));
@@ -124,8 +144,8 @@ class AdminController extends Controller
     }
 
     public function view_order(){
-        //$data=category::all();
-        return view('admin.orders'  );
+        $orders=Order::all();
+        return view('admin.orders',compact('orders'));
     }
 
     public function view_orderdetails(){
@@ -151,8 +171,9 @@ class AdminController extends Controller
     }
 
     public function loggedout(){
-        Session::forget('key');
-        return view('home.userpage'  );
+        Auth::logout();
+    return redirect('/');
+       // return view('home.userpage'  );
     }
 
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Order;
 class HomeController extends Controller
 {
     public function addproduct(Request $request)
@@ -79,7 +80,9 @@ class HomeController extends Controller
             $user->additional=$request->additional;
             $user->cash=$request->cash;
             $user->save();
-
+            $neworder= new Order;
+            $neworder->userid=$sesion;
+            $neworder->save();
             Session::forget('key');
             return response()->json(['message' => $sesion]);
         }else{

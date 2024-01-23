@@ -1,10 +1,17 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\Order;
+use App\Models\User;
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
   data-theme="theme-default" data-assets-path="{{ asset('admin/assets/') }}" data-template="">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
+  <meta http-equiv="refresh" content="15">
   <title>Order List - eCommerce | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
   
@@ -160,7 +167,8 @@
   </tr>
 </thead>
 <tbody>
-  <tr class="odd">
+  @foreach($orders as $orders)
+  <tr class="odd" id="order-{{$orders->id}}">
     {{-- <td class="control dtr-hidden" tabindex="0" style="display: none;">
     </td> --}}
     <td class="  dt-checkboxes-cell">
@@ -168,25 +176,31 @@
     </td>
     <td>
       <a href="app-ecommerce-order-details.html">
-        <span class="fw-medium">#6979</span>
+        <span class="fw-medium">#{{$orders->id}}</span>
       </a>
     </td>
     <td class="sorting_1">
-      <span class="text-nowrap">Apr 15, 2023, 10:21</span>
+      <span class="text-nowrap">{{$orders->created_at}}</span>
     </td>
     <td>
       <div class="d-flex justify-content-start align-items-center order-name text-nowrap">
-        <div class="avatar-wrapper">
+        {{-- <div class="avatar-wrapper">
           <div class="avatar me-2">
             <img src="../../assets/img/avatars/19.png" alt="Avatar" class="rounded-circle" style="filter: invert(0);">
           </div>
-        </div>
+        </div> --}}
         <div class="d-flex flex-column">
           <h6 class="m-0">
             <a href="pages-profile-user.html" class="text-body">
-              Cristine Easom</a>
+               
+              {{User::where('userid', $orders->userid)->pluck('name')->first(); }} 
+              
+              
+              </a>
             </h6>
-            <small class="text-muted">ceasomw@theguardian.com</small>
+            <small class="text-muted"> 
+              {{User::where('userid', $orders->userid)->pluck('phone')->first(); }}
+             </small>
           </div>
         </div>
       </td>
@@ -198,8 +212,9 @@
       </td>
       <td class="" style="">
         <div class="d-flex align-items-center text-nowrap">
-          <img src="../../assets/img/icons/payments/mastercard.png" alt="mastercard" class="me-2" width="16" style="filter: invert(0);">
-          <span><i class="bx bx-dots-horizontal-rounded"></i>2356</span>
+          
+          <span><i class="bx bx-dots-horizontal-rounded"></i> {{User::where('userid', $orders->userid)->pluck('cash')->first();}}
+           </span>
         </div>
       </td>
       <td class="" style="">
@@ -208,12 +223,14 @@
             <i class="bx bx-dots-vertical-rounded"></i>
           </button>
           <div class="dropdown-menu dropdown-menu-end m-0">
-            <a href="{{ url('/view_orderdetails') }}" class="dropdown-item">View</a>
-            <a href="javascript:0;" class="dropdown-item delete-record">Delete</a>
+            
+            <a href="{{ url('/orderview',$orders->userid) }}" class="dropdown-item" data-id="">View</a>
+            <a href="" class="dropdown-item delete-record" data-id="{{$orders->id}}">Delete</a>
           </div>
         </div>
       </td>
     </tr>
+   @endforeach
   </tbody>
 </table>
 </div>
@@ -302,6 +319,30 @@
   $(document).ready(function() {
   $('.datatables-orders').DataTable()
 })
+
+$('.delete-record').on('click', function(e) {
+           e.preventDefault();
+            var orderId = $(this).attr('data-id');
+
+            $.ajax({
+                url: "{{ route('order.rmv') }}",
+                method: 'POST',
+                headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+                data: { id: orderId},
+                success: function(response) {
+                    $('#order-' + orderId).empty();
+                    //toastr.success("Success");
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the request
+                }
+            });
+        });
+
+ 
+
 </script>
 </body>
 </html>

@@ -1,3 +1,9 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\Product;
+use App\Models\User;
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
   data-theme="theme-default" data-assets-path="{{ asset('admin/assets/') }}" data-template="">
@@ -5,7 +11,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
+    
     <title>Order Details - eCommerce | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     
@@ -88,8 +94,8 @@
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
 <div class="d-flex flex-column justify-content-center">
-<h5 class="mb-1 mt-3">Order #32543 <span class="badge bg-label-success me-2 ms-2">Paid</span> <span class="badge bg-label-info">Ready to Pickup</span></h5>
-<p class="text-body">Aug 17, <span id="orderYear"></span>, 5:48 (ET)</p>
+<h5 class="mb-1 mt-3">Order #{{$customer->userid}} <span class="badge bg-label-success me-2 ms-2">Paid</span> <span class="badge bg-label-info">Ready to Pickup</span></h5>
+<p class="text-body">{{$order->created_at}}</p>
 </div>
 <div class="d-flex align-content-center flex-wrap gap-2">
 <button class="btn btn-label-danger delete-order">Delete Order</button>
@@ -103,7 +109,7 @@
 <div class="card mb-4">
   <div class="card-header d-flex justify-content-between align-items-center">
     <h5 class="card-title m-0">Order details</h5>
-    <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6>
+    {{-- <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6> --}}
   </div>
   <div class="card-datatable table-responsive">
     <table class="order-details table">
@@ -118,6 +124,7 @@
         </tr>
       </thead>
       <tbody>
+        @foreach( $data as $data)
         <tr class="odd">
             {{-- <td class="  control" tabindex="0" style="display: none;">
             </td> --}}
@@ -128,31 +135,32 @@
             <div class="d-flex justify-content-start align-items-center text-nowrap">
                 <div class="avatar-wrapper">
                     <div class="avatar me-2">
-                        <img src="{{asset('admin/assets/img/avatars/15.png')}}" alt="product-Wooden Chair" class="rounded-2" style="filter: invert(0);">
+                        <img src="/product/{{Product::where('id', $data->product_id)->pluck('image')->first(); }}" alt="product-Wooden Chair" class="rounded-2" style="filter: invert(0);">
                     </div>
                 </div>
                 <div class="d-flex flex-column">
-                    <h6 class="text-body mb-0">Wooden Chair</h6>
-                    <small class="text-muted">Material: Wooden</small>
+                    <h6 class="text-body mb-0">{{$data->title}}</h6>
+                    <small class="text-muted"></small>
                 </div>
             </div>
         </td>
         <td>
-            <span>$841</span>
+            <span>{{($data->price)/($data->quantity)}}</span>
         </td>
         <td>
-            <span class="text-body">2</span>
+            <span class="text-body">{{$data->quantity}}</span>
         </td>
-        <td><h6 class="mb-0">$1682</h6>
+        <td><h6 class="mb-0">{{$data->price}}</h6>
         </td>
     </tr>
+    @endforeach
       </tbody>
     </table>
     <div class="d-flex justify-content-end align-items-center m-3 mb-2 p-1">
       <div class="order-calculations">
         <div class="d-flex justify-content-between mb-2">
           <span class="w-px-100">Subtotal:</span>
-          <span class="text-heading">$6398</span>
+          <span class="text-heading">{{$catsumm}}</span>
         </div>
         <div class="d-flex justify-content-between mb-2">
           <span class="w-px-100">Discount:</span>
@@ -164,7 +172,7 @@
         </div>
         <div class="d-flex justify-content-between">
           <h6 class="w-px-100 mb-0">Total:</h6>
-          <h6 class="mb-0">$6450</h6>
+          <h6 class="mb-0">{{$catsumm}}</h6>
         </div>
       </div>
     </div>
@@ -247,24 +255,24 @@
   <div class="card-body">
     <div class="d-flex justify-content-start align-items-center mb-4">
       <div class="avatar me-2">
-        <img src="admin/assets/img/avatars/1.png" alt="Avatar" class="rounded-circle">
+        {{-- <img src="admin/assets/img/avatars/1.png" alt="Avatar" class="rounded-circle"> --}}
       </div>
       <div class="d-flex flex-column">
         <a href="app-user-view-account.html" class="text-body text-nowrap">
-          <h6 class="mb-0">Shamus Tuttle</h6>
+          <h6 class="mb-0">{{$customer->name}}</h6>
         </a>
-        <small class="text-muted">Customer ID: #58909</small></div>
+        <small class="text-muted">Customer ID: #{{$customer->userid}}</small></div>
     </div>
     <div class="d-flex justify-content-start align-items-center mb-4">
       <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class="bx bx-cart-alt bx-sm lh-sm"></i></span>
-      <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
+      <h6 class="text-body text-nowrap mb-0">{{$catcount}}</h6>
     </div>
     <div class="d-flex justify-content-between">
       <h6>Contact info</h6>
       {{-- <h6><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6> --}}
     </div>
-    <p class=" mb-1">Email: Shamus889@yahoo.com</p>
-    <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
+    <p class=" mb-1">Email: {{$customer->email}}</p>
+    <p class=" mb-0">Mobile: {{$customer->phone}}</p>
   </div>
   <div class="card mb-4">
 
@@ -273,7 +281,7 @@
       {{-- <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6> --}}
     </div>
     <div class="card-body">
-      <p class="mb-0">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
+      <p class="mb-0">{{$customer->address}} <br>{{$customer->additional}} <br>{{$customer->cash}}</p>
     </div>
   
   </div>
