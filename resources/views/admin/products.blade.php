@@ -117,7 +117,7 @@
               </thead>
               <tbody>
                 @foreach($product as $product)
-                <tr class="odd" id="product-{{$product->id}}">
+                <tr class="odd mytablerow" id="product-{{$product->id}}">
                   {{-- <td class="control dtr-hidden" tabindex="0" style="display: no ne;">
                   </td> --}}
                   <td class="  dt-checkboxes-cell">
@@ -132,7 +132,7 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column justify-content-center">
-                        <span id="title-{{$product->id}}" class="text-body text-wrap fw-medium">{{$product->title}}</span>
+                        <span id="title-{{$product->id}}" class="text-body text-wrap fw-medium mytitle">{{$product->title}}</span>
                         <span class="text-muted text-truncate mb-0 d-none d-sm-block">
                           <small id="category-{{$product->id}}">Category: {{$product->category}}</small><br>
                           <small id="description-{{$product->id}}">{{$product->description}}</small>
@@ -155,6 +155,7 @@
                   </td>
                 </tr>
                @endforeach
+               
               </tbody>
             </table>
           </div>
@@ -479,6 +480,16 @@
                     
                    $('.text-reset').trigger('click');
                    window.location.href = '/show_product';
+
+                  // var newRow = $('.mytablerow').clone(); // Clone template row
+    //newRow.removeAttr('id'); // Remove the ID from the cloned row
+  // newRow.find('.mytitle').html(response.message1); // Set the name
+    //newRow.find('.email').text('johndoe@example.com'); // Set the email
+   //newRow.find('.deleteBtn').click(function() {
+   //$(this).closest('tr').remove(); // Delete button click event to remove the row
+  // });
+    //newRow.show(); // Show the new row
+  //$('#myTable tbody').append(newRow); 
                   // $('#category-' + respone.message).html('Category: ' + respone.message1);
                 },
                 error: function(xhr, status, error) {

@@ -223,7 +223,9 @@ use Illuminate\Support\Facades\Request;
                                 </div>
                             
                                 @endforeach
-
+<div class="mt-3" style="display: inline-block;padding-right: 5px;padding-left: 5px;">
+                                {{ $products->links() }}
+</div>  
                             </div>
                         </div>
                     </div>

@@ -305,14 +305,14 @@
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <form method="POST" action="{{ route('logout') }}">
+              <form method="POST" action="{{ route('logout') }}" x-data>
                 @csrf
-                <button type="submit">   <a class="dropdown-item">
-                <i class="bx bx-power-off me-2"></i>
-                <span class="align-middle">Log Out</span>
-              </a>
-            </button>
-          </form>
+
+                <x-responsive-nav-link href="{{ route('logout') }}"
+                               @click.prevent="$root.submit();">
+                    {{ __('Log Out') }}
+                </x-responsive-nav-link>
+            </form>
             </li>
           </ul>
         </li>

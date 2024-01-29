@@ -48,7 +48,7 @@ use App\Models\Product; ?>
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0" id="prod_qty" value="">
+                                    <input type="text" class="form-control form-control-sm text-center border-0" id="prod_qty" min="1" value="1">
                                     <div class="input-group-btn">
                                         <button data-id="{{$product->id}}" class="btn btn-sm btn-plus rounded-circle bg-light border qty_prod">
                                             <i class="fa fa-plus"></i>

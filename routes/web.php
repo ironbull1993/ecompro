@@ -28,7 +28,7 @@ Route::middleware([
 
 Route::get('/redirect',[HomeController::class,'redirect']);
 
-Route::post('/logout',[AdminController::class,'loggedout'])->name('logout')->middleware('custom.auth');
+Route::get('/logout',[AdminController::class,'loggedout'])->name('logout')->middleware('custom.auth');
 
 //Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 

@@ -334,7 +334,7 @@ else{
     public function index(){
        
          $cartchk=Cart::all();
-         $products=Product::all();
+         $products=Product::paginate(3);
          return view('home.userpage',compact('products','cartchk'));
 
     }
@@ -344,6 +344,8 @@ else{
 
         if($usertype=='1'){
           return view('admin.home');
+         // $uniqid=uniqid();
+         // Session::put('key', $uniqid);
         }
         else{
             return view('home.userpage');
