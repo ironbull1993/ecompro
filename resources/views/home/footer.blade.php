@@ -179,9 +179,16 @@ $('.rmv-cart').on('click', function(e) {
   },
                 data: { id: productId, qty: productqnt},
                 success: function(response) {
-                    $('#price-' + productId).html('Tsh ' + response.message);
+                    if(response.message1==="Maximum stock reached!"){
+                        toastr.warning('Maximum stock reached!');
+                        $('#qty-' + productId).val(response.message3);
+                       // newRow.removeAttr('id');
+                    }else{
+                        $('#price-' + productId).html('Tsh ' + response.message);
                     $('#total-cart').html('Tsh ' + response.message2);
                     $('#total-cart1').html('Tsh ' + response.message2);
+                    }
+                   
                     
                 },
                 error: function(xhr, status, error) {
@@ -274,7 +281,7 @@ $('.rmv-allcart').on('click', function(e) {
                 success: function(response) {
                 
                     $('.items').empty();
-                    
+                    toastr.warning('Cart cleared!');
                     $('#total-cart').html('Tsh ' + response.message2);
                     $('#total-cart1').html('Tsh ' + response.message2);
                     $('#superscript').html(response.message3);
@@ -293,4 +300,34 @@ $('.rmv-allcart').on('click', function(e) {
             });
         });
 
+        $(document).ready(function() {
+			toastr.options = {
+				'closeButton': true,
+				'debug': false,
+				'newestOnTop': false,
+				'progressBar': false,
+				'positionClass': 'toast-top-right',
+				'preventDuplicates': false,
+				'showDuration': '1000',
+				'hideDuration': '1000',
+				'timeOut': '5000',
+				'extendedTimeOut': '1000',
+				'showEasing': 'swing',
+				'hideEasing': 'linear',
+				'showMethod': 'fadeIn',
+				'hideMethod': 'fadeOut',
+			}
+		});
+
+	// Toast Type
+		//$('.rmv-allcart').click(function(event) {
+		//	toastr.warning('Cart cleared!');
+		//});
+
+
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+

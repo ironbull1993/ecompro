@@ -196,20 +196,22 @@ class HomeController extends Controller
         $cart=Cart::find($request->id);
         $product=Product::find($cart->product_id);
         
-    
-    if($product->discount_price!=null){
-    $cart->price=$product->discount_price * $request->qty;}
-    else{
-        $cart->price=$product->price * $request->qty;
-    }    
-        $cart->quantity=$request->qty;
-       
-        $cart->save();
-        $catsumm=Cart::where('user_id',Session::get('key'))->sum('price');
-        
-        $total=$catsumm;
-      return response()->json(['message' => $cart->price,'message2'=>$total]);
-       //return response()->json(['message2'=>$total]);
+    if($product->quantity<$request->qty){
+        return response()->json(['message1' => "Maximum stock reached!", 'message3' => $product->quantity]);
+    }else{if($product->discount_price!=null){
+        $cart->price=$product->discount_price * $request->qty;}
+        else{
+            $cart->price=$product->price * $request->qty;
+        }    
+            $cart->quantity=$request->qty;
+           
+            $cart->save();
+            $catsumm=Cart::where('user_id',Session::get('key'))->sum('price');
+            
+            $total=$catsumm;
+          return response()->json(['message' => $cart->price,'message2'=>$total]);}
+
+
     }
 
     public function deletecart(){
@@ -334,7 +336,7 @@ else{
     public function index(){
        
          $cartchk=Cart::all();
-         $products=Product::paginate(3);
+         $products=Product::paginate(30);
          return view('home.userpage',compact('products','cartchk'));
 
     }

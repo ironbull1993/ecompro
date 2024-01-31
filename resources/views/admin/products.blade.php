@@ -120,7 +120,7 @@
                 <tr class="odd mytablerow" id="product-{{$product->id}}">
                   {{-- <td class="control dtr-hidden" tabindex="0" style="display: no ne;">
                   </td> --}}
-                  <td class="  dt-checkboxes-cell">
+                  <td class="dt-checkboxes-cell">
                     <input type="checkbox" class="dt-checkboxes form-check-input">
                   </td>
                   <td class="sorting_1">
@@ -328,6 +328,7 @@
                 data: { id: productId},
                 success: function(response) {
                     $('#product-' + productId).empty();
+                   // $('#myTable').DataTable().draw();
                     //toastr.success("Success");
                 },
                 error: function(xhr, status, error) {
@@ -481,15 +482,16 @@
                    $('.text-reset').trigger('click');
                    window.location.href = '/show_product';
 
-                  // var newRow = $('.mytablerow').clone(); // Clone template row
-    //newRow.removeAttr('id'); // Remove the ID from the cloned row
-  // newRow.find('.mytitle').html(response.message1); // Set the name
-    //newRow.find('.email').text('johndoe@example.com'); // Set the email
-   //newRow.find('.deleteBtn').click(function() {
-   //$(this).closest('tr').remove(); // Delete button click event to remove the row
-  // });
-    //newRow.show(); // Show the new row
-  //$('#myTable tbody').append(newRow); 
+    //               var newItem = $('<tr>'); // Create a new table row
+    // // Append checkbox column
+    // newItem.append('<td class="dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>');
+    // // Append image column
+    // newItem.append('<td class="sorting_1"><div class="d-flex align-items-center"><div class="avatar-wrapper me-2 rounded-2 bg-label-secondary"><div class="avatar"><img id="" src="" alt="Product-8" class="rounded-2"style="filter: invert(0);"></div></div><div class="d-flex flex-column justify-content-center"><span id="" class="text-body text-wrap fw-medium mytitle">titleeee</span><span class="text-muted text-truncate mb-0 d-none d-sm-block"><small id="">Category: uuu</small><br><small id="">iiiiiii</small></span></div></div></td>'); // Replace "image-url" with the actual image URL
+    // // Append title column
+    // newItem.append('<td><div class="text-sm-end" id="">hhh</div></td>'); // Replace "Title" with the actual title
+    // newItem.append('<td class="" style=""><div class="fw-medium text-sm-end" id="">Tsh 777</div></td>');
+    // newItem.append('<td class="" style=""><div class="d-flex align-items-sm-center justify-content-sm-center"><button class="btn btn-sm btn-icon delete-record me-2 rmv-product" data-id=""><i class="bx bx-trash"></i></button><button class="btn btn-sm btn-icon editproduct" data-id="" data-bs-toggle="offcanvas"data-bs-target="#offcanvasEcommerceCategoryList"><i class="bx bx-edit"></i></button></div></td>');
+    // $('#myTable tbody').append(newItem);
                   // $('#category-' + respone.message).html('Category: ' + respone.message1);
                 },
                 error: function(xhr, status, error) {

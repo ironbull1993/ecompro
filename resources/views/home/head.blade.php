@@ -26,7 +26,7 @@
     <!-- Template Stylesheet -->
     <link href="home/css/style.css" rel="stylesheet">
 
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <!------ Include the above in your HEAD tag !->
 
    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -35,12 +35,30 @@
    < Include the above in your HEAD tag ---------->
 <style>
 
+body {background: whitesmoke;text-align: center;}
+		button{background-color: darkslategrey;color: white;border: 0;font-size: 18px;font-weight: 500;border-radius: 7px;padding: 10px 10px;cursor: pointer;white-space: nowrap;}
+		#success{background: green;}
+		#error{background: red;}
+		#warning{background: coral;}
+		#info{background: cornflowerblue;}
+		#question{background: grey;}
+
+
+
+
+
+
+
+
+
 .img-fluid {
     
     height: 230px;
 }
 
-
+.pag{
+  display: inline;
+}
 
  /*--thank you pop starts here--*/
  body{margin-top:20px;}

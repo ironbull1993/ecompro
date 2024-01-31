@@ -60,7 +60,7 @@ use App\Models\Product; ?>
                                         </div>
                                         <input type="text" id="qty-{{$mycart->id}}" class="form-control form-control-sm text-center border-0" min="1"  value="{{ $mycart->quantity }} " >
                                         <div class="input-group-btn">
-                                            <button data-id="{{$mycart->id}}" class="btn btn-sm btn-plus rounded-circle bg-light border qty-cart">
+                                            <button id="disab" data-id="{{$mycart->id}}" class="btn btn-sm btn-plus rounded-circle bg-light border qty-cart">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
@@ -85,7 +85,7 @@ use App\Models\Product; ?>
                 </div>
                 <div class="mt-5">
                     {{-- <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code"> --}}
-                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary rmv-allcart" type="submit"><a href=""><i class="fa fa-times text-danger"></i> Clear cart</a></button>
+                    <button id="" class="btn border-secondary rounded-pill px-4 py-3 text-primary rmv-allcart" type="submit"><a href=""><i class="fa fa-times text-danger"></i> Clear cart</a></button>
                     <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button"><a href="{{ url('/') }}">Continue shopping</a></button>
                 </div>
                 <div class="row g-4 justify-content-end">
