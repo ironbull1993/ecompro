@@ -95,58 +95,7 @@ use Illuminate\Support\Facades\Request;
 </div>
 <!-- Featurs Section End -->
 
-<!-- Vesitable Shop Start-->
-<div class="container-fluid vesitable py-5">
-    <div class="container py-5">
-        <h1 class="mb-0">Fresh Organic Vegetables</h1>
-        <div class="owl-carousel vegetable-carousel justify-content-center">
-            {{-- @foreach ($products as $product )
-            <div class="border border-primary rounded position-relative vesitable-item">
-                <div class="vesitable-img">
-                    <img src="/product/{{$product->image}}" class="img-fluid w-100 rounded-top" alt="">
-                </div>
-                <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">{{$product->category}}</div>
-                <div class="p-4 rounded-bottom">
-                    <h4>{{$product->title}}</h4>
-                    <p><a href="{{ url('product_details',$product->id) }}">
-                        Product Details
-                          </a></p>
-                    <div class="d-flex justify-content-between flex-lg-wrap">
-                        <p class="text-dark fs-5 fw-bold mb-0">{{$product->price}}</p>
-                        <div id="cart-{{$product->id}}"><b></b>
-                        </div>
-                        @if(Cart::where('product_id',$product->id)->where('user_id',Session::get('key'))->exists())
-                        <div id="cart-{{$product->id}}"><b>Item added to cart</b></div>
-                        @else
-                        <form>
-                            @csrf
-                      <button type="submit" id="sub-btn1-{{$product->id}}" data-id="{{$product->id}}" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
-                    </form>
-                      @endif
-                    </div>
-                </div>
-            </div>
 
-         @endforeach --}}
-            
-            <div class="border border-primary rounded position-relative vesitable-item">
-                <div class="vesitable-img">
-                    <img src="img/vegetable-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                </div>
-                <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">Vegetable</div>
-                <div class="p-4 rounded-bottom">
-                    <h4>Parsely</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                    <div class="d-flex justify-content-between flex-lg-wrap">
-                        <p class="text-dark fs-5 fw-bold mb-0">$7.99 / kg</p>
-                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Vesitable Shop End -->
 
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
@@ -161,26 +110,6 @@ use Illuminate\Support\Facades\Request;
                         <li class="nav-item">
                             <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
                                 <span class="text-dark" style="width: 130px;">All Products</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                <span class="text-dark" style="width: 130px;">Vegetables</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                <span class="text-dark" style="width: 130px;">Fruits</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                <span class="text-dark" style="width: 130px;">Bread</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                <span class="text-dark" style="width: 130px;">Meat</span>
                             </a>
                         </li>
                     </ul>
@@ -210,7 +139,10 @@ use Illuminate\Support\Facades\Request;
                                                 <div id="cart1-{{$product->id}}"><b></b>
                                                 </div>
                                                 @if(Cart::where('product_id',$product->id)->where('user_id',Session::get('key'))->exists())
-                                                <div id="cart1-{{$product->id}}"><b>Item added to cart</b></div>
+                                                <button href="" id="cart1-{{$product->id}}" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"> Added to Cart</button>
+                                                @elseif($product->quantity==0)
+                                                <button href="" id="cart1-{{$product->id}}" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"> Out of stock</button>
+                                                
                                                 @else
                                                 <form>
                                                     @csrf

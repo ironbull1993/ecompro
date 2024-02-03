@@ -72,7 +72,7 @@ class HomeController extends Controller
     public function checkout(Request $request)
 {
     if (Session::has('key')) {
-        $itemIds = "";
+        $itemIds = [];
         $isQuantityZero = false;
         $productData = $request->input('products');
 
@@ -85,8 +85,8 @@ class HomeController extends Controller
 
             if ($product->quantity == 0) {
                 $isQuantityZero = true;
-                $itemIds = $product->id;
-                break; // Stop the execution if the quantity is zero
+                $itemIds[] = $product->id;
+                //break; // Stop the execution if the quantity is zero
               
             }
         }

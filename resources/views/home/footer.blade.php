@@ -242,8 +242,11 @@ $('.rmv-cart').on('click', function(e) {
 
                     if (response.message === "Quantity is zero, update not performed") {
                             toastr.warning('Some items are out of stock!');
-                            window.location.href = '/cart_items?message=quantity_zero&itemId=' + response.itemIds;
-                            $('#stk-' + response.itemIds).show();
+                            //window.location.href = '/cart_items?message=quantity_zero&itemId=' + response.itemIds;
+                            const itemIds = response.itemIds;
+        const itemIdsJson = JSON.stringify(itemIds);
+        const encodedItemIdsJson = encodeURIComponent(itemIdsJson);
+        window.location.href = '/cart_items?message=quantity_zero&itemIds=' + encodedItemIdsJson;
                     
                 }else{
                     window.location.href = '/';

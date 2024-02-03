@@ -41,6 +41,8 @@ use App\Models\Product; ?>
                                 <p class="mb-4">{{ $product->description }}</p>
                                 @if(Cart::where('product_id',$product->id)->where('user_id',Session::get('key'))->exists())
                                 <button href="" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"> Added to cart</button>
+                                @elseif($product->quantity==0)
+                                <button href="" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"> Out of stock</button>
                                 @else
                                 <div class="input-group quantity mb-5" style="width: 100px;">
                                     <div class="input-group-btn">
