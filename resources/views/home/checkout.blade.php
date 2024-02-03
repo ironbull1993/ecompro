@@ -72,7 +72,7 @@
                         </div>
                         <div class="col-md-12 col-lg-6 col-xl-12">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="mytablee">
                                     <thead>
                                         <tr>
                                             <th scope="col">Products</th>
@@ -85,7 +85,7 @@
                                     <tbody>
 
                                         @foreach($mycart as $mycart)
-                                        <tr>
+                                        <tr data-id="{{$mycart->product_id}}" data-purchased="{{ $mycart->quantity }}">
                                             <th scope="row">
                                                 <div class="d-flex align-items-center mt-2">
                                                     <img src="/product/{{$mycart->image}}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">

@@ -47,6 +47,7 @@ use App\Models\Product; ?>
                                 </th>
                                 <td>
                                     <p class="mb-0 mt-4">{{$mycart->product_title}}</p>
+                                    <h6 class="mb-0 w-px-100 text-warning" id="stk-{{$mycart->product_id}}" style="display: none;"><i class="bx bxs-circle fs-tiny me-2"></i>Out of stock</h6>
                                 </td>
                                 <td>
                                     <p class="mb-0 mt-4">{{($mycart->price)/($mycart->quantity)}}</p>
@@ -58,7 +59,7 @@ use App\Models\Product; ?>
                                             <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" id="qty-{{$mycart->id}}" class="form-control form-control-sm text-center border-0" min="1"  value="{{ $mycart->quantity }} " >
+                                        <input type="text" id="qty-{{$mycart->id}}" style="background-color: #f4f6f8;" class="form-control form-control-sm text-center border-0" min="1"  value="{{ $mycart->quantity }} " >
                                         <div class="input-group-btn">
                                             <button id="disab" data-id="{{$mycart->id}}" class="btn btn-sm btn-plus rounded-circle bg-light border qty-cart">
                                                 <i class="fa fa-plus"></i>
@@ -122,6 +123,17 @@ use App\Models\Product; ?>
 
 
         @include('home.footer')
+
+        <script>
+              const urlParams = new URLSearchParams(window.location.search);
+const message = urlParams.get('message');
+const itemId = urlParams.get('itemId');
+
+if (message === 'quantity_zero' && itemId) {
+    toastr.warning('Some items are out of stock!');
+    $('#stk-' + itemId).show();
+}
+            </script>
     </body>
 
 </html>

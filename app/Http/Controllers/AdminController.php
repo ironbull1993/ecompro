@@ -170,6 +170,12 @@ class AdminController extends Controller
         //return redirect()->back()->with('message','Category deleted successfully');
     }
 
+
+    public function chartdata(){
+        $data = Product::all();
+        return response()->json($data);
+    }
+
     public function loggedout(){
         Auth::logout();
     return redirect('/');

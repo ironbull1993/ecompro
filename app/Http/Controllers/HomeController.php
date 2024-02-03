@@ -69,26 +69,66 @@ class HomeController extends Controller
         
     }
 
-    public function checkout(Request $request){
-        if (Session::has('key')){
-            $sesion=Session::get('key');
-            $user=User::where('userid', $sesion)->first();
-            $user->name=$request->name;
-            $user->email=$request->email;
-            $user->phone=$request->phone;
-            $user->address=$request->address;
-            $user->additional=$request->additional;
-            $user->cash=$request->cash;
-            $user->save();
-            $neworder= new Order;
-            $neworder->userid=$sesion;
-            $neworder->save();
-            Session::forget('key');
-            return response()->json(['message' => $sesion]);
-        }else{
-            return view('home.userpage');
+    public function checkout(Request $request)
+{
+    if (Session::has('key')) {
+        $itemIds = "";
+        $isQuantityZero = false;
+        $productData = $request->input('products');
+
+        foreach ($productData as $data) {
+            $productId = $data['id'];
+            $purchasedItems = $data['purchased'];
+
+            // Update the product's quantity based on the purchased items
+            $product = Product::find($productId);
+
+            if ($product->quantity == 0) {
+                $isQuantityZero = true;
+                $itemIds = $product->id;
+                break; // Stop the execution if the quantity is zero
+              
+            }
         }
+
+        if ($isQuantityZero) {
+            return response()->json(['message' => 'Quantity is zero, update not performed', 'itemIds' => $itemIds]);
+        } else {
+            $session = Session::get('key');
+            $user = User::where('userid', $session)->first();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->additional = $request->additional;
+            $user->cash = $request->cash;
+            $user->save();
+
+            $newOrder = new Order;
+            $newOrder->userid = $session;
+            $newOrder->save();
+
+
+            foreach ($productData as $data) {
+                $productId = $data['id'];
+                $purchasedItems = $data['purchased'];
+    
+                // Update the product's quantity based on the purchased items
+                $product = Product::find($productId);
+    
+                
+                    $product->quantity -= $purchasedItems;
+                    $product->save();
+                
+            }
+
+            Session::forget('key');
+            return response()->json(['message' => $session]);
+        }
+    } else {
+        return view('home.userpage');
     }
+}
 
     public function addItem(Request $request)
     {  

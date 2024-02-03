@@ -77,3 +77,86 @@
     </script>
 
 <script src="{{ asset('admin/assets/js/app-ecommerce-category-list.js') }}"></script>
+
+<script>
+  $(document).ready(function() {
+    function updateChart() {
+    $.ajax({
+      url: '/chart-data',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        var options = {
+          animationEnabled: true,
+          title: {
+            text: "GDP Growth Rate - 2016"
+          },
+          axisY: {
+            title: "Growth Rate (in %)"
+            
+          },
+          axisX: {
+            title: "Countries"
+          },
+          data: [{
+            type: "column",
+            yValueFormatString: "#,##0",
+            dataPoints: data.map(function(item) {
+            
+              return { label: item.title, y: parseFloat(item.quantity) };
+            })
+          }]
+        };
+        $("#totalIncomeChart").CanvasJSChart(options);
+      },
+      error: function(xhr, status, error) {
+        console.log(error);
+      }
+    });
+  }
+  updateChart();
+
+  // Call the updateChart function every 15 seconds
+  setInterval(updateChart, 15000);
+  });
+  </script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    function updateChart() {
+    $.ajax({
+      url: '/chart-data',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        var options = {
+          data: [{
+            type: "pie",
+			startAngle: 45,
+			showInLegend: "true",
+			legendText: "{label}",
+			indexLabel: "{label} ({y})",
+			yValueFormatString:"#,##0.#"%"",
+            dataPoints: data.map(function(item) {
+            
+              return { label: item.title, y: parseFloat(item.quantity) };
+            })
+          }]
+        };
+        $("#chartContainer").CanvasJSChart(options);
+      },
+      error: function(xhr, status, error) {
+        console.log(error);
+      }
+    });
+  }
+  updateChart();
+
+  // Call the updateChart function every 15 seconds
+  setInterval(updateChart, 15000);
+  });
+  </script>
+
+
+  <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+  <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>

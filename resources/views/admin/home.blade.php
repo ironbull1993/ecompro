@@ -12,11 +12,11 @@
             
             
 
+          {{-- <div class="col-lg-6 col-md-3 col-6 mb-4" id="chartContainer" style="height: 300px; width: 100%;"></div> --}}
 
+          
 
-  
-
-            <div class="col-md-12 col-lg-4">
+            {{-- <div class="col-md-12 col-lg-4">
               <div class="row">
                 <div class="col-lg-6 col-md-3 col-6 mb-4">
                   <div class="card">
@@ -86,10 +86,11 @@
                 </div>
               </div>
             </div>
-          
+           --}}
             <!-- Total Income -->
             <div class="col-md-12 col-lg-12 mb-4">
               <div class="card">
+               
                 <div class="row row-bordered g-0">
                   <div class="col-md-8">
                     <div class="card-header">
@@ -98,6 +99,89 @@
                     </div>
                     <div class="card-body">
                       <div id="totalIncomeChart"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card-header d-flex justify-content-between">
+                      <div>
+                        <h5 class="card-title mb-0">Report</h5>
+                        <small class="card-subtitle">Monthly Avg. $45.578k</small>
+                      </div>
+                      <div class="dropdown">
+                        <button class="btn p-0" type="button" id="totalIncome" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalIncome">
+                          <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                          <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="report-list">
+                        <div class="report-list-item rounded-2 mb-3">
+                          <div class="d-flex align-items-start">
+                            <div class="report-list-icon shadow-sm me-2">
+                              <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/svg/icons/paypal-icon.svg" width="22" height="22" alt="Paypal">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end w-100 flex-wrap gap-2">
+                              <div class="d-flex flex-column">
+                                <span>Income</span>
+                                <h5 class="mb-0">$42,845</h5>
+                              </div>
+                              <small class="text-success">+2.34k</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="report-list-item rounded-2 mb-3">
+                          <div class="d-flex align-items-start">
+                            <div class="report-list-icon shadow-sm me-2">
+                              <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/svg/icons/shopping-bag-icon.svg" width="22" height="22" alt="Shopping Bag">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end w-100 flex-wrap gap-2">
+                              <div class="d-flex flex-column">
+                                <span>Expense</span>
+                                <h5 class="mb-0">$38,658</h5>
+                              </div>
+                              <small class="text-danger">-1.15k</small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="report-list-item rounded-2">
+                          <div class="d-flex align-items-start">
+                            <div class="report-list-icon shadow-sm me-2">
+                              <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/svg/icons/wallet-icon.svg" width="22" height="22" alt="Wallet">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end w-100 flex-wrap gap-2">
+                              <div class="d-flex flex-column">
+                                <span>Profit</span>
+                                <h5 class="mb-0">$18,220</h5>
+                              </div>
+                              <small class="text-success">+1.35k</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/ Total Income -->
+            </div>
+
+
+            <div class="col-md-12 col-lg-12 mb-4">
+              <div class="card">
+                
+                <div class="row row-bordered g-0">
+                  <div class="col-md-8">
+                    <div class="card-header">
+                      <h5 class="card-title mb-0">Total Income</h5>
+                      <small class="card-subtitle">Yearly report overview</small>
+                    </div>
+                    <div class="card-body">
+                      <div id="chartContainer" style="height: 250px;"></div>
                     </div>
                   </div>
                   <div class="col-md-4">

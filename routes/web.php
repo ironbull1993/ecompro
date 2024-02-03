@@ -102,3 +102,5 @@ Route::get('/checkout',[HomeController::class,'mycheckout']);
 
 Route::post('/cart/addproduct',[HomeController::class,'addproduct'])->name('cart.addproduct');
 
+Route::get('/chart-data',[AdminController::class,'chartdata'])->middleware('custom.auth');
+
